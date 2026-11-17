@@ -10,6 +10,8 @@ day one. Nothing here is ready to install as DekBass.
 
 - **SMK-37:** every mapping decision is in [smk37-port.yaml](smk37-port.yaml), made with the
   [fm1-to-smk37](https://github.com/genkigenki/fm1-to-smk37) kit. The base's SMK-37 notes: [SMK37.md](SMK37.md).
+- **Manual** (Deutsch, English, हिन्दी, ଓଡ଼ିଆ): [docs/manual/](docs/manual/), as Markdown and as one designed page,
+  `docs/manual/index.html` (rebuild with `python3 tools/dekbass/make_manual.py`).
 - **Plan and next steps:** [docs/dekbass/PLAN.md](docs/dekbass/PLAN.md).
 - **Building:** [BUILDING.md](BUILDING.md). Clone with the engines' submodule:
   `git clone --recurse-submodules <this repository>`.

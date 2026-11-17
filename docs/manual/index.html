@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DekBass Handbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* DekBass: night sound-system poster. Black ground, the four voice colours, Konark wheel as the grid. */
+  --ink:#0c0a08; --panel:#15110d; --line:#2b241c; --spoke:#2e2720;
+  --text:#ece6db; --muted:#a39886;
+  --red:#d2343e; --ochre:#d9a032; --indigo:#7c7ff0; --grey:#c8c8c8;
+  --display:"Big Shoulders Display","Noto Sans Devanagari","Noto Sans Oriya",Impact,sans-serif;
+  --body:"IBM Plex Sans","Noto Sans Devanagari","Noto Sans Oriya",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font:16px/1.65 var(--body);
+  background-image:radial-gradient(1200px 600px at 85% -10%,rgba(217,160,50,.10),transparent 60%),
+                   radial-gradient(900px 500px at -10% 30%,rgba(124,127,240,.07),transparent 60%);}
+a{color:var(--ochre)} a:focus-visible,button:focus-visible{outline:2px solid var(--ochre);outline-offset:3px}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:10px max(16px,4vw);background:rgba(12,10,8,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.brand{font:900 22px/1 var(--display);letter-spacing:.06em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{display:inline-flex;gap:3px}.brand i b{width:7px;height:18px;border-radius:2px}
+.switch{display:flex;gap:4px;flex-wrap:wrap}
+.switch a{font:600 14px/1 var(--body);color:var(--muted);text-decoration:none;padding:8px 12px;border:1px solid var(--line);border-radius:999px}
+.switch a[aria-current="true"]{color:var(--ink);background:var(--ochre);border-color:var(--ochre)}
+.lang{display:none;scroll-margin-top:120px}.lang.on{display:block}
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(16px,4vw,56px);align-items:center;
+  padding:clamp(28px,6vw,72px) max(16px,4vw) clamp(20px,4vw,40px);max-width:1240px;margin:0 auto}
+.eyebrow{font:500 13px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ochre);margin:0 0 14px}
+h1{margin:0;display:flex;flex-direction:column;gap:6px;text-wrap:balance}
+h1 .word{font:900 clamp(56px,min(9.5vw,15vh),150px)/.86 var(--display);letter-spacing:.01em;
+  background:linear-gradient(180deg,var(--text) 55%,var(--ochre));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .board{font:700 clamp(18px,2.6vw,28px)/1.1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lead{max-width:58ch;color:var(--text);font-size:17px;margin:22px 0 0}
+.konark{width:100%;max-width:420px;justify-self:center;filter:drop-shadow(0 0 40px rgba(217,160,50,.12))}
+.playhead{transform-origin:200px 200px;animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.playhead{animation:none}html{scroll-behavior:auto}}
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(20px,4vw,56px);max-width:1240px;margin:0 auto;padding:0 max(16px,4vw) 80px}
+.toc{position:sticky;top:70px;align-self:start;border-left:2px solid var(--line);padding-left:16px}
+.toc-h{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:6px 0 12px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:flex;gap:10px;align-items:baseline;color:var(--text);text-decoration:none;padding:5px 0;font-size:14.5px;line-height:1.3}
+.toc a:hover{color:var(--ochre)} .tn{font:600 12px var(--mono);color:var(--ochre);min-width:20px}
+.body{max-width:76ch;min-width:0}
+h2{display:flex;align-items:baseline;gap:16px;margin:64px 0 18px;padding-top:18px;border-top:1px solid var(--line);
+  font:800 clamp(30px,4.2vw,44px)/1.05 var(--display);letter-spacing:.02em;text-wrap:balance;scroll-margin-top:70px}
+h2 .num{font:900 .9em/1 var(--display);color:var(--ochre);min-width:1.4em}
+.body > h2:first-child{margin-top:8px}
+h3{font:700 15px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ochre);margin:34px 0 10px}
+p{margin:0 0 14px} strong{color:#fff;font-weight:600}
+ul,ol{padding-left:1.25em;margin:0 0 16px} li{margin:4px 0} li::marker{color:var(--ochre)}
+.body ol>li::marker{font-family:var(--mono);font-weight:600}
+.tablewrap{overflow-x:auto;margin:6px 0 22px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;font-variant-numeric:tabular-nums}
+th{text-align:left;font:600 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ochre);
+  padding:12px 14px;border-bottom:1px solid var(--line);background:#1b1611;white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0} tbody tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+kbd{font:600 .78em/1 var(--mono);letter-spacing:.03em;color:var(--text);background:#1f1913;border:1px solid #3a3026;
+  border-bottom-width:3px;border-radius:5px;padding:3px 6px 2px;white-space:nowrap;display:inline-block}
+.view{font:700 .76em/1 var(--mono);letter-spacing:.08em;padding:3px 7px;border-radius:999px;white-space:nowrap}
+.view-bass{background:var(--ochre);color:var(--ink)} .view-euclid{background:var(--indigo);color:var(--ink)}
+.vchip{font:700 .8em/1 var(--mono);padding:2px 6px;border-radius:4px;color:var(--ink);white-space:nowrap}
+.v1{background:var(--red)}.v2{background:var(--ochre)}.v3{background:var(--indigo)}.v4{background:var(--grey)}
+.wheels{margin:8px 0 26px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel);display:grid;
+  grid-template-columns:minmax(0,300px) 1fr;gap:20px;align-items:center}
+.wheels svg{width:100%} .vlabel{font:900 22px var(--display)}
+.wheels figcaption{color:var(--muted);font-size:14.5px}
+.foot{margin-top:72px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}.konark{max-width:300px;order:-1}
+  .layout{grid-template-columns:1fr}.toc{position:static;border-left:0;padding:0;border-top:1px solid var(--line);padding-top:14px}
+  .toc ol{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}
+  .wheels{grid-template-columns:1fr}
+}
+@media (max-width:480px){.toc ol{grid-template-columns:1fr}.switch{gap:3px}.switch a{padding:7px 8px;font-size:13px}.brand{font-size:18px}.brand i{display:none}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a class="brand" href="#de"><i aria-hidden="true"><b style="background:var(--red)"></b><b style="background:var(--ochre)"></b><b style="background:var(--indigo)"></b><b style="background:var(--grey)"></b></i>DEKBASS</a>
+  <nav class="switch" aria-label="Language"><a href="#de" lang="de">Deutsch</a><a href="#en" lang="en">English</a><a href="#hi" lang="hi">हिन्दी</a><a href="#or" lang="or">ଓଡ଼ିଆ</a></nav>
+</div>
+
+<section class="lang" id="de" lang="de" data-lang="de">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Handbuch · Firmware v1.0 für M-VAVE FM-1 und M-Vave SMK-37</p>
+      <h1><span class="word">DEKBASS</span><span class="board">FM-1 · SMK-37</span></h1>
+      <p class="lead">Firmware v1.0 für den M-VAVE FM-1 und das M-Vave SMK-37. Namen in GROSSBUCHSTABEN sind DekBass-Funktionen; welche Taste am FM-1 und am SMK-37 dazu gehört, steht in Kapitel 4. Was das SMK-37 zusätzlich kann, steht in Kapitel 12.</p>
+    </div>
+    <svg class="konark" viewBox="0 0 400 400" role="img" aria-label="Konark view: four voices as rings"><circle cx="200" cy="200" r="186" fill="none" stroke="var(--red)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="50.0" x2="200.0" y2="18.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="61.4" x2="269.6" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="93.9" x2="328.7" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="142.6" x2="368.1" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="350.0" y1="200.0" x2="382.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="257.4" x2="368.1" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="306.1" x2="328.7" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="338.6" x2="269.6" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="350.0" x2="200.0" y2="382.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="338.6" x2="130.4" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="306.1" x2="71.3" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="257.4" x2="31.9" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="50.0" y1="200.0" x2="18.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="142.6" x2="31.9" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="93.9" x2="71.3" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="61.4" x2="130.4" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="146" fill="none" stroke="var(--ochre)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="88.0" x2="200.0" y2="58.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="96.5" x2="254.3" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="120.8" x2="300.4" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="157.1" x2="331.2" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="312.0" y1="200.0" x2="342.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="242.9" x2="331.2" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="279.2" x2="300.4" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="303.5" x2="254.3" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="312.0" x2="200.0" y2="342.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="303.5" x2="145.7" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="279.2" x2="99.6" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="242.9" x2="68.8" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="88.0" y1="200.0" x2="58.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="157.1" x2="68.8" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="120.8" x2="99.6" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="96.5" x2="145.7" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="108" fill="none" stroke="var(--indigo)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="126.0" x2="200.0" y2="96.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="131.6" x2="239.8" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="147.7" x2="273.5" y2="126.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="171.7" x2="296.1" y2="160.2" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="274.0" y1="200.0" x2="304.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="228.3" x2="296.1" y2="239.8" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="252.3" x2="273.5" y2="273.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="268.4" x2="239.8" y2="296.1" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="274.0" x2="200.0" y2="304.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="268.4" x2="160.2" y2="296.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="252.3" x2="126.5" y2="273.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="228.3" x2="103.9" y2="239.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="126.0" y1="200.0" x2="96.0" y2="200.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="171.7" x2="103.9" y2="160.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="147.7" x2="126.5" y2="126.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="131.6" x2="160.2" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="70" fill="none" stroke="var(--grey)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="160.0" x2="200.0" y2="134.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="163.0" x2="225.3" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="171.7" x2="246.7" y2="153.3" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="184.7" x2="261.0" y2="174.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="240.0" y1="200.0" x2="266.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="215.3" x2="261.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="228.3" x2="246.7" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="237.0" x2="225.3" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="240.0" x2="200.0" y2="266.0" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="237.0" x2="174.7" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="228.3" x2="153.3" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="215.3" x2="139.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="160.0" y1="200.0" x2="134.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="184.7" x2="139.0" y2="174.7" stroke="var(--grey)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="171.7" x2="153.3" y2="153.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="163.0" x2="174.7" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="26" fill="var(--ink)" stroke="var(--grey)" stroke-width="2"/><circle cx="200" cy="200" r="8" fill="var(--ochre)"/><g class="playhead"><line x1="200" y1="170" x2="200" y2="6" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round" opacity=".85"/></g></svg>
+  </header>
+  <div class="layout">
+    <nav class="toc" aria-label="Kapitel"><p class="toc-h">Kapitel</p><ol><li><a href="#de-1"><span class="tn">01</span>Sicherheit</a></li><li><a href="#de-2"><span class="tn">02</span>Installation</a></li><li><a href="#de-3"><span class="tn">03</span>Das Prinzip</a></li><li><a href="#de-4"><span class="tn">04</span>Bedienelemente</a></li><li><a href="#de-5"><span class="tn">05</span>Bass spielen</a></li><li><a href="#de-6"><span class="tn">06</span>Bass-Sequencer</a></li><li><a href="#de-7"><span class="tn">07</span>Euclid-Drums</a></li><li><a href="#de-8"><span class="tn">08</span>Performance</a></li><li><a href="#de-9"><span class="tn">09</span>Presets und Pattern</a></li><li><a href="#de-10"><span class="tn">10</span>Einstellungen (MENU)</a></li><li><a href="#de-11"><span class="tn">11</span>Fehlerbehebung</a></li><li><a href="#de-12"><span class="tn">12</span>SMK-37</a></li></ol></nav>
+    <article class="body">
+<h2 id="de-1"><span class="num">01</span><span class="ht">Sicherheit</span></h2>
+<ul>
+<li>DekBass erzeugt sehr tiefe Frequenzen. Lautstärke an Mixer und Anlage immer langsam hochziehen.</li>
+<li>Der eingebaute Lautsprecher gibt keinen Sub-Bass wieder. Sounds nie nur am Lautsprecher einstellen – auf der Anlage wird der Bass sonst viel zu laut.</li>
+<li>Subsonic-Filter und Limiter sind ab Werk an. Nur abschalten, wenn du genau weißt, was deine Anlage verträgt.</li>
+<li>Bei lauten Sessions Gehörschutz tragen.</li>
+</ul>
+<h2 id="de-2"><span class="num">02</span><span class="ht">Installation</span></h2>
+<ol>
+<li>FM-1 voll aufladen und per USB-C mit dem Computer verbinden.</li>
+<li>Den DekBass-Installer im Browser öffnen (Chrome oder Edge).</li>
+<li><strong>Backup erstellen:</strong> Presets und Einstellungen der aktuellen Firmware sichern.</li>
+<li>„Installieren“ wählen und warten, bis der FM-1 neu startet. Kabel währenddessen nicht trennen.</li>
+<li><strong>Zurück zur Original-Firmware:</strong> mit dem offiziellen M-VAVE-Updater die Firmware V15 neu aufspielen.</li>
+</ol>
+<p>Die Installation erfolgt auf eigenes Risiko.</p>
+<h2 id="de-3"><span class="num">03</span><span class="ht">Das Prinzip</span></h2>
+<p>DekBass hat zwei Ansichten: <strong><span class="view view-bass">BASS</span></strong> und <strong><span class="view view-euclid">EUCLID</span></strong>. Beide laufen immer gleichzeitig. <strong><kbd>SEQ</kbd> lang drücken</strong> wechselt nur, was du siehst und was die vier Knobs steuern – der Sound läuft weiter.</p>
+<p>Oben im Display steht immer: Tempo, aktueller Preset (z. B. A07) und ein kleiner Indikator der anderen Ansicht. Unten stehen die vier Parameter, die die Knobs gerade steuern.</p>
+<h2 id="de-4"><span class="num">04</span><span class="ht">Bedienelemente</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Funktion</th>
+<th>FM-1</th>
+<th>SMK-37</th>
+<th>Was sie tut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knob 1–4</td>
+<td>KNOB 1–4</td>
+<td>K5–K8</td>
+<td>Die vier Parameter der aktuellen Seite</td>
+</tr>
+<tr>
+<td><kbd>MASTER</kbd></td>
+<td><kbd>MASTER</kbd></td>
+<td>K1</td>
+<td>Gesamtlautstärke</td>
+</tr>
+<tr>
+<td><kbd>TEMPO</kbd></td>
+<td><kbd>SELECT</kbd></td>
+<td>K2</td>
+<td>Tempo</td>
+</tr>
+<tr>
+<td>ENGINE / <kbd>FOKUS</kbd></td>
+<td><kbd>ALGORITHM</kbd></td>
+<td>K3</td>
+<td><span class="view view-bass">BASS</span>: Engine wählen. <span class="view view-euclid">EUCLID</span>: Voice im Fokus</td>
+</tr>
+<tr>
+<td><kbd>PRESET</kbd></td>
+<td><kbd>PRESETS</kbd></td>
+<td>K4</td>
+<td>Sound-Preset wählen</td>
+</tr>
+<tr>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>SEQ PLAY</kbd></td>
+<td>Start/Stopp</td>
+</tr>
+<tr>
+<td><kbd>REC</kbd></td>
+<td><kbd>REC</kbd></td>
+<td><kbd>SEQ REC</kbd></td>
+<td>Live-Aufnahme in den Bass-Sequencer</td>
+</tr>
+<tr>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td>Kurz: Sequencer-Bearbeitung. Lang: <span class="view view-bass">BASS</span> ↔ <span class="view view-euclid">EUCLID</span></td>
+</tr>
+<tr>
+<td><kbd>MENU</kbd></td>
+<td><kbd>HOME</kbd></td>
+<td><kbd>PATCH</kbd></td>
+<td>Einstellungen</td>
+</tr>
+<tr>
+<td><kbd>BANK</kbd></td>
+<td><kbd>SAVE</kbd></td>
+<td><kbd>BT</kbd></td>
+<td>Presets laden; mit <kbd>SHIFT</kbd> speichern</td>
+</tr>
+<tr>
+<td><kbd>SHIFT</kbd></td>
+<td><kbd>GLO</kbd></td>
+<td><kbd>GLOBE</kbd></td>
+<td>Zweite Ebene jeder Taste</td>
+</tr>
+<tr>
+<td><kbd>PAGE</kbd></td>
+<td><kbd>EDIT</kbd></td>
+<td><kbd>PARA</kbd></td>
+<td>Nächste Seite. <kbd>SHIFT</kbd> + <kbd>PAGE</kbd>: die vier Werte der Seite auf Standard</td>
+</tr>
+<tr>
+<td><kbd>DROP</kbd></td>
+<td>FX</td>
+<td>FX</td>
+<td>Performance (Kapitel 8)</td>
+</tr>
+<tr>
+<td><kbd>BUILD</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td>Performance (Kapitel 8)</td>
+</tr>
+<tr>
+<td><kbd>CUT</kbd></td>
+<td>ENV</td>
+<td><kbd>CHORD</kbd></td>
+<td>Performance (Kapitel 8)</td>
+</tr>
+<tr>
+<td><kbd>FILL</kbd></td>
+<td>LFO</td>
+<td><kbd>NOTE REPEAT</kbd></td>
+<td>Performance (Kapitel 8)</td>
+</tr>
+<tr>
+<td><kbd>KONARK</kbd></td>
+<td><kbd>SEL</kbd></td>
+<td><kbd>SCALE</kbd></td>
+<td>Konark-Ansicht an/aus</td>
+</tr>
+<tr>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCTAVE−</kbd> / <kbd>OCTAVE+</kbd></td>
+<td>Oktave</td>
+</tr>
+<tr>
+<td>Weiße Tasten</td>
+<td>F3–G5</td>
+<td>mittlere 27 Tasten</td>
+<td>Noten; im Sequencer Steps 1–16; in <span class="view view-euclid">EUCLID</span>: F3–B3 = Mute <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>Die Drehregler lassen sich nicht drücken. Alles, was du auslöst, liegt auf Tasten.</p>
+<h2 id="de-5"><span class="num">05</span><span class="ht">Bass spielen</span></h2>
+<h3>Engines</h3>
+<p>Mit dem Encoder ENGINE (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3) wählst du eine von vier Engines:</p>
+<ul>
+<li><strong>SUB</strong> – reiner, tiefer Sinus-Bass mit Obertönen. Für Box-Bässe und lange Drops.</li>
+<li><strong>FM</strong> – harte, metallische Bässe.</li>
+<li><strong>PD</strong> – Growls und „sprechende“ Mitten.</li>
+<li><strong>FX</strong> – Sirene, Laser, Horn, Noise.</li>
+</ul>
+<p>Die vier Knobs auf ENGINE sind Makros der gewählten Engine. Alle anderen Seiten sind für alle Engines gleich.</p>
+<h3>Seiten</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Seite</th>
+<th>Knob 1</th>
+<th>Knob 2</th>
+<th>Knob 3</th>
+<th>Knob 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PERFORM</td>
+<td>Cutoff</td>
+<td>Resonanz</td>
+<td>Drive</td>
+<td>Glide</td>
+</tr>
+<tr>
+<td>ENGINE</td>
+<td>Makro 1</td>
+<td>Makro 2</td>
+<td>Makro 3</td>
+<td>Makro 4</td>
+</tr>
+<tr>
+<td>PITCH</td>
+<td>Pitch-Env Tiefe</td>
+<td>Pitch-Env Zeit</td>
+<td>Sub-Pegel</td>
+<td>Oktave/Tune</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>Attack</td>
+<td>Decay</td>
+<td>Sustain</td>
+<td>Release</td>
+</tr>
+<tr>
+<td>LFO</td>
+<td>Rate</td>
+<td>Tiefe</td>
+<td>Ziel</td>
+<td>Form</td>
+</tr>
+<tr>
+<td>FX</td>
+<td>Kette</td>
+<td>Crush</td>
+<td>Delay</td>
+<td>Space</td>
+</tr>
+</tbody>
+</table></div>
+<p>Mit <kbd>SHIFT</kbd>: ENV → Filter-Hüllkurve, LFO → LFO 2, FX → Delay-Zeit, Feedback, Space-Größe, Ausgangspegel.</p>
+<p><strong>Tipp für den klassischen Dek-Bass-Sweep:</strong> Seite PITCH, Pitch-Env Tiefe auf +24, Zeit auf ca. 300 ms, Glide auf PERFORM leicht aufdrehen.</p>
+<h3>Effektketten</h3>
+<ul>
+<li><strong>CLASSIC:</strong> Drive vor dem Filter – warm.</li>
+<li><strong>DIRTY:</strong> Drive nach dem Filter – aggressiv.</li>
+<li><strong>SUB-SAFE:</strong> Verzerrung nur in den Mitten, der Sub bleibt sauber. Empfohlen für große Anlagen.</li>
+</ul>
+<h2 id="de-6"><span class="num">06</span><span class="ht">Bass-Sequencer</span></h2>
+<ol>
+<li><kbd>SEQ</kbd> kurz drücken → Sequencer-Bearbeitung.</li>
+<li><strong>Step setzen:</strong> weiße Taste für den Step halten und eine Note spielen.</li>
+<li><strong>Live aufnehmen:</strong> <kbd>REC</kbd>, dann <kbd>PLAY</kbd>, dann spielen.</li>
+<li><strong>Step-Details:</strong> Step halten und Knobs drehen – Knob 1 Gate/Tie, Knob 2 Wahrscheinlichkeit, Knob 3 Ratchet (1–4), Knob 4 Slide/Accent.</li>
+<li><strong>Parameter-Lock:</strong> Step halten und den Parameter auf einer Klangseite drehen. Bis zu 4 verschiedene Parameter pro Pattern.</li>
+<li><strong>Länge:</strong> <kbd>SHIFT</kbd> + <kbd>SEQ</kbd>, dann Knob 1 (1–64 Steps). In der Sequencer-Bearbeitung blättert <kbd>PAGE</kbd> durch die Step-Seiten 1–16, 17–32 usw. Auf dem SMK-37 zeigen &lt; und &gt; die Step-Seiten auch außerhalb der Bearbeitung auf den Pads.</li>
+<li><strong>Bedingungen:</strong> Step halten + <kbd>SHIFT</kbd> + Knob 2: immer, jeder 2. Durchlauf, jeder 4. Durchlauf, nur bei <kbd>FILL</kbd>.</li>
+<li><strong>Swing:</strong> im <kbd>MENU</kbd>, 50–75 %.</li>
+</ol>
+<h2 id="de-7"><span class="num">07</span><span class="ht">Euclid-Drums</span></h2>
+<h3>Die vier Räder</h3>
+<p>Jede Voice ist ein Rad mit 16 Speichen – eine Speiche pro Step. Breite Speichen liegen auf den Achteln, schmale dazwischen. Leuchtende Speichen sind Schläge.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Rad</th>
+<th>Farbe</th>
+<th>Standard</th>
+<th>Modelle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="vchip v1">V1</span></td>
+<td>Rot</td>
+<td>Kick</td>
+<td>Kick, Sub-Kick, Box-Kick</td>
+</tr>
+<tr>
+<td><span class="vchip v2">V2</span></td>
+<td>Ocker</td>
+<td>Snare</td>
+<td>Snare, Clap, Rim</td>
+</tr>
+<tr>
+<td><span class="vchip v3">V3</span></td>
+<td>Indigo</td>
+<td>Perc</td>
+<td>Hat, Metal-Perc, Shaker</td>
+</tr>
+<tr>
+<td><span class="vchip v4">V4</span></td>
+<td>Grau</td>
+<td>FX</td>
+<td>Siren-Hit, Laser, Horn, Noise</td>
+</tr>
+</tbody>
+</table></div><figure class="wheels"><svg viewBox="0 0 360 380" role="img" aria-label="Vier Voices, vier Räder: V1 Kick 4 Schläge, V2 Snare 2 (Rotation 4), V3 Perc 7, V4 FX 3. Breite Speichen = Achtel, schmale = Sechzehntel dazwischen."><circle cx="90" cy="84" r="66" fill="none" stroke="var(--red)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="84" r="11.9" fill="var(--ink)" stroke="var(--red)" stroke-width="2.0"/><line x1="90.0" y1="68.2" x2="90.0" y2="23.3" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="18.0" r="3.2" fill="var(--red)"/><line x1="96.1" y1="69.4" x2="113.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="72.8" x2="132.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="77.9" x2="146.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="105.8" y1="84.0" x2="150.7" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="156.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="104.6" y1="90.1" x2="146.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="95.2" x2="132.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="98.6" x2="113.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="90.0" y1="99.8" x2="90.0" y2="144.7" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="150.0" r="3.2" fill="var(--red)"/><line x1="83.9" y1="98.6" x2="66.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="95.2" x2="47.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="75.4" y1="90.1" x2="33.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="84.0" x2="29.3" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="75.4" y1="77.9" x2="33.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="72.8" x2="47.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="69.4" x2="66.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="182" text-anchor="middle" class="vlabel" fill="var(--red)">V1</text><circle cx="270" cy="84" r="66" fill="none" stroke="var(--ochre)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="84" r="11.9" fill="var(--ink)" stroke="var(--ochre)" stroke-width="2.0"/><line x1="270.0" y1="68.2" x2="270.0" y2="23.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="69.4" x2="293.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="72.8" x2="312.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="77.9" x2="326.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="84.0" x2="330.7" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="336.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="284.6" y1="90.1" x2="326.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="95.2" x2="312.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="98.6" x2="293.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="99.8" x2="270.0" y2="144.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="98.6" x2="246.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="95.2" x2="227.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="90.1" x2="213.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="84.0" x2="209.3" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="204.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="255.4" y1="77.9" x2="213.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="72.8" x2="227.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="69.4" x2="246.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="182" text-anchor="middle" class="vlabel" fill="var(--ochre)">V2</text><circle cx="90" cy="280" r="66" fill="none" stroke="var(--indigo)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="280" r="11.9" fill="var(--ink)" stroke="var(--indigo)" stroke-width="2.0"/><line x1="90.0" y1="264.2" x2="90.0" y2="219.3" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="214.0" r="3.2" fill="var(--indigo)"/><line x1="96.1" y1="265.4" x2="113.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="268.8" x2="132.9" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="273.9" x2="146.1" y2="256.8" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="254.7" r="3.2" fill="var(--indigo)"/><line x1="105.8" y1="280.0" x2="150.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="286.1" x2="146.1" y2="303.2" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="305.3" r="3.2" fill="var(--indigo)"/><line x1="101.2" y1="291.2" x2="132.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="294.6" x2="113.2" y2="336.1" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="115.3" cy="341.0" r="3.2" fill="var(--indigo)"/><line x1="90.0" y1="295.8" x2="90.0" y2="340.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="294.6" x2="66.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="291.2" x2="47.1" y2="322.9" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="326.7" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="286.1" x2="33.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="280.0" x2="29.3" y2="280.0" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="280.0" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="273.9" x2="33.9" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="268.8" x2="47.1" y2="237.1" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="233.3" r="3.2" fill="var(--indigo)"/><line x1="83.9" y1="265.4" x2="66.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="378" text-anchor="middle" class="vlabel" fill="var(--indigo)">V3</text><circle cx="270" cy="280" r="66" fill="none" stroke="var(--grey)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="280" r="11.9" fill="var(--ink)" stroke="var(--grey)" stroke-width="2.0"/><line x1="270.0" y1="264.2" x2="270.0" y2="219.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="265.4" x2="293.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="268.8" x2="312.9" y2="237.1" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="316.7" cy="233.3" r="3.2" fill="var(--grey)"/><line x1="284.6" y1="273.9" x2="326.1" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="280.0" x2="330.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="286.1" x2="326.1" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="291.2" x2="312.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="294.6" x2="293.2" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="295.8" x2="270.0" y2="340.7" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="270.0" cy="346.0" r="3.2" fill="var(--grey)"/><line x1="263.9" y1="294.6" x2="246.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="291.2" x2="227.1" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="286.1" x2="213.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="280.0" x2="209.3" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="273.9" x2="213.9" y2="256.8" stroke="var(--grey)" stroke-width="2.2" stroke-linecap="round"/><circle cx="209.0" cy="254.7" r="3.2" fill="var(--grey)"/><line x1="258.8" y1="268.8" x2="227.1" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="265.4" x2="246.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="378" text-anchor="middle" class="vlabel" fill="var(--grey)">V4</text></svg><figcaption>Vier Voices, vier Räder: V1 Kick 4 Schläge, V2 Snare 2 (Rotation 4), V3 Perc 7, V4 FX 3. Breite Speichen = Achtel, schmale = Sechzehntel dazwischen.</figcaption></figure>
+<h3>Seiten</h3>
+<ul>
+<li><strong>HITS:</strong> Anzahl der Schläge pro Voice (0–16). <kbd>SHIFT</kbd> + drehen = Länge der Voice (1–16) für Polyrhythmen.</li>
+<li><strong>ROTATE:</strong> verschiebt das Muster (0–15 Steps).</li>
+<li><strong>LEVEL:</strong> Lautstärke – das Rad wird größer oder kleiner.</li>
+<li><strong>SOUND:</strong> Tune, Decay, Tone, Drive der Voice im Fokus. Modell wechseln: <kbd>SHIFT</kbd> + Knob 1.</li>
+</ul>
+<h3>Stummschalten, Solo, Fokus</h3>
+<ul>
+<li><strong>Mute:</strong> In der EUCLID-Ansicht schalten die weißen Tasten F3, G3, A3 und B3 die Voices <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> stumm oder laut. Auf dem SMK-37 auch die Pads 5–8.</li>
+<li><strong>Solo:</strong> <kbd>SHIFT</kbd> + dieselbe Taste bzw. dasselbe Pad.</li>
+<li><strong>Fokus:</strong> Encoder <kbd>FOKUS</kbd> (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3). Die zuletzt geänderte Voice bekommt den Fokus automatisch.</li>
+<li>Die übrigen Tasten spielen in der EUCLID-Ansicht weiter den Bass.</li>
+</ul>
+<h3>Weitere Einstellungen (<kbd>MENU</kbd>)</h3>
+<ul>
+<li><strong>Verteilung:</strong> euklidisch (gleichmäßig) oder Block.</li>
+<li><strong>Mutate:</strong> zufällige kleine Variation pro Takt, 0–100 %.</li>
+<li><strong>Duck:</strong> Die Kick senkt den Bass kurz ab, damit beide klar bleiben.</li>
+</ul>
+<p><strong>Konark-Ansicht:</strong> Die Taste <kbd>KONARK</kbd> (FM-1: <kbd>SEL</kbd>, SMK-37: <kbd>SCALE</kbd>) zeigt alle vier Voices als Ringe in einem großen Rad. Nochmal drücken schaltet zurück.</p>
+<h2 id="de-8"><span class="num">08</span><span class="ht">Performance</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Taste</th>
+<th>Wirkung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><kbd>DROP</kbd></strong> (halten)</td>
+<td>Pitch fällt, Filter schließt, Delay steigt, nur die Kick spielt. Loslassen = zurück auf die nächste Eins</td>
+</tr>
+<tr>
+<td><strong><kbd>BUILD</kbd></strong> (halten)</td>
+<td>Riser über 1/2/4/8 Takte (im <kbd>MENU</kbd>). Loslassen = Drop auf die nächste Eins</td>
+</tr>
+<tr>
+<td><strong><kbd>CUT</kbd></strong> (tippen)</td>
+<td>Alles stumm bis zur nächsten Eins</td>
+</tr>
+<tr>
+<td><strong><kbd>FILL</kbd></strong> (halten)</td>
+<td>Snare und Perc doppelt, FILL-Steps im Bass spielen</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="de-9"><span class="num">09</span><span class="ht">Presets und Pattern</span></h2>
+<ul>
+<li><strong>Banks:</strong> A und B sind Werks-Presets (geschützt), C und D sind für dich. C01–C04 enthalten neutrale Startpunkte.</li>
+<li><strong>Schnell wechseln:</strong> Encoder <kbd>PRESET</kbd> (FM-1: <kbd>PRESETS</kbd>, SMK-37: K4).</li>
+<li><strong>Laden über die Bank-Seite:</strong> <kbd>BANK</kbd> drücken, mit Knob 1 Bank, mit Knob 2 Preset wählen.</li>
+<li><strong>Speichern:</strong> <kbd>SHIFT</kbd> + <kbd>BANK</kbd>, Platz in C oder D wählen, bestätigen. Das Gerät fragt, ob das aktuelle Pattern verknüpft werden soll.</li>
+<li><strong>Pattern</strong> (Bassline + Drums) haben 64 eigene Plätze: <kbd>SEQ</kbd> + <kbd>BANK</kbd>.</li>
+<li><strong>Lade-Modus</strong> (<kbd>MENU</kbd>): „SOUND“ wechselt nur den Klang – Drums laufen weiter. „SOUND + PATTERN“ wechselt auf die nächste Eins beides.</li>
+<li><strong>Init-Sound:</strong> <kbd>SHIFT</kbd> + <kbd>BANK</kbd> lang halten.</li>
+</ul>
+<h2 id="de-10"><span class="num">10</span><span class="ht">Einstellungen (MENU)</span></h2>
+<p>Das Tempo stellst du mit dem Encoder <kbd>TEMPO</kbd> ein (FM-1: <kbd>SELECT</kbd>, SMK-37: K2). Im <kbd>MENU</kbd>: Clock (intern / MIDI-Slave / MIDI-Master), MIDI-Kanal, Subsonic-Filter (20/25/30/35 Hz), Limiter, Mono-Summe, Lade-Modus, Swing, BUILD-Länge, Display-Helligkeit, Tastendynamik (nur SMK-37), Werksreset (Sounds / Pattern / Einstellungen getrennt).</p>
+<h2 id="de-11"><span class="num">11</span><span class="ht">Fehlerbehebung</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Lösung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kein Bass hörbar</td>
+<td>Kopfhörer oder Anlage benutzen – der Lautsprecher spielt keinen Sub. Lade-Modus und Mutes prüfen</td>
+</tr>
+<tr>
+<td>Bass wird bei Sweeps leiser</td>
+<td>Subsonic-Filter fängt Frequenzen unter dem Grenzwert ab. Gewollt zum Schutz</td>
+</tr>
+<tr>
+<td>Drums laufen nicht mit externer Clock</td>
+<td><kbd>MENU</kbd> → Clock auf MIDI-Slave stellen</td>
+</tr>
+<tr>
+<td>Preset lässt sich nicht speichern</td>
+<td>Bank A und B sind geschützt – in C oder D speichern</td>
+</tr>
+<tr>
+<td>Gerät startet nicht mehr</td>
+<td>Mit dem offiziellen M-VAVE-Updater Firmware V15 aufspielen, dann DekBass neu installieren</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="de-12"><span class="num">12</span><span class="ht">SMK-37</span></h2>
+<p>DekBass läuft auch auf dem SMK-37 Pro, dem SMK-37 Elite und dem MKE-P37; das Starrykey 37 Play nutzt das Pro-Paket. Alles aus den Kapiteln 3–11 gilt auch dort. Dazu kommen:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Bedienelement</th>
+<th>Funktion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 äußere Tasten (C3–E3, G♯5–C6)</td>
+<td>Weitere Bass-Noten, vor allem nach unten</td>
+</tr>
+<tr>
+<td>Pads in <span class="view view-bass">BASS</span></td>
+<td>Die 16 Steps der aktuellen Step-Seite in Ocker, Playhead hell</td>
+</tr>
+<tr>
+<td>Pads in <span class="view view-euclid">EUCLID</span></td>
+<td>1–4 spielen <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> von Hand, 5–8 Mute <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> (mit <kbd>SHIFT</kbd> Solo), 9–12 <kbd>DROP</kbd>, <kbd>BUILD</kbd>, <kbd>CUT</kbd>, <kbd>FILL</kbd>, 13–16 Pattern 1–4 (Wechsel auf die nächste Eins)</td>
+</tr>
+<tr>
+<td>Fader 1–4</td>
+<td>Pitch-Sweep-Tiefe, Delay-Throw, Duck, Balance Bass/Drums. Ein Fader greift erst, wenn du ihn bewegst</td>
+</tr>
+<tr>
+<td>Pitch-Wheel</td>
+<td>Bend auf dem Bass, ±12 Halbtöne</td>
+</tr>
+<tr>
+<td>Mod-Wheel</td>
+<td><kbd>BUILD</kbd> von Hand: Filter öffnet, Noise steigt, Ratchets verdoppeln sich</td>
+</tr>
+<tr>
+<td><kbd>KNOB BANK</kbd></td>
+<td>Pattern-Kette</td>
+</tr>
+<tr>
+<td><kbd>FADER BANK</kbd></td>
+<td>Zeigt die vier Fader-Makros groß an</td>
+</tr>
+<tr>
+<td>&lt; / &gt;</td>
+<td>Blättert durch die Step-Seiten des Bass-Sequencers</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Das SMK-37 hat keinen TRS-MIDI-Eingang: MIDI-Clock kommt nur über USB.</li>
+<li>Vor der ersten Installation eine vollständige Flash-Sicherung machen (Anleitung in SMK37.md im Repository). Kalibrierung und Rückweg zur Original-Firmware bleiben unberührt.</li>
+<li>Beim ersten Start löscht DekBass den Einstellungsbereich der Original-Firmware.</li>
+<li>Pakete: dekbass-smk37.fwsc (Pro), dekbass-smk37-elite.fwsc, dekbass-smk37-mke.fwsc.</li>
+</ul>
+      <footer class="foot"><p>DekBass ist freie Software unter GPL-3.0, aufgebaut auf Felucca. <a href="https://github.com/g0rst/DekBass-FM1">github.com/g0rst/DekBass-FM1</a></p></footer>
+    </article>
+  </div>
+</section>
+<section class="lang" id="en" lang="en" data-lang="en">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">User manual · firmware v1.0 for the M-VAVE FM-1 and the M-Vave SMK-37</p>
+      <h1><span class="word">DEKBASS</span><span class="board">FM-1 · SMK-37</span></h1>
+      <p class="lead">Firmware v1.0 for the M-VAVE FM-1 and the M-Vave SMK-37. Names in CAPITALS are DekBass functions; chapter 4 shows which button carries each one on the FM-1 and on the SMK-37. What the SMK-37 adds is in chapter 12.</p>
+    </div>
+    <svg class="konark" viewBox="0 0 400 400" role="img" aria-label="Konark view: four voices as rings"><circle cx="200" cy="200" r="186" fill="none" stroke="var(--red)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="50.0" x2="200.0" y2="18.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="61.4" x2="269.6" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="93.9" x2="328.7" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="142.6" x2="368.1" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="350.0" y1="200.0" x2="382.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="257.4" x2="368.1" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="306.1" x2="328.7" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="338.6" x2="269.6" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="350.0" x2="200.0" y2="382.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="338.6" x2="130.4" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="306.1" x2="71.3" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="257.4" x2="31.9" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="50.0" y1="200.0" x2="18.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="142.6" x2="31.9" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="93.9" x2="71.3" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="61.4" x2="130.4" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="146" fill="none" stroke="var(--ochre)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="88.0" x2="200.0" y2="58.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="96.5" x2="254.3" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="120.8" x2="300.4" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="157.1" x2="331.2" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="312.0" y1="200.0" x2="342.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="242.9" x2="331.2" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="279.2" x2="300.4" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="303.5" x2="254.3" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="312.0" x2="200.0" y2="342.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="303.5" x2="145.7" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="279.2" x2="99.6" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="242.9" x2="68.8" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="88.0" y1="200.0" x2="58.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="157.1" x2="68.8" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="120.8" x2="99.6" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="96.5" x2="145.7" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="108" fill="none" stroke="var(--indigo)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="126.0" x2="200.0" y2="96.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="131.6" x2="239.8" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="147.7" x2="273.5" y2="126.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="171.7" x2="296.1" y2="160.2" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="274.0" y1="200.0" x2="304.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="228.3" x2="296.1" y2="239.8" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="252.3" x2="273.5" y2="273.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="268.4" x2="239.8" y2="296.1" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="274.0" x2="200.0" y2="304.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="268.4" x2="160.2" y2="296.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="252.3" x2="126.5" y2="273.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="228.3" x2="103.9" y2="239.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="126.0" y1="200.0" x2="96.0" y2="200.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="171.7" x2="103.9" y2="160.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="147.7" x2="126.5" y2="126.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="131.6" x2="160.2" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="70" fill="none" stroke="var(--grey)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="160.0" x2="200.0" y2="134.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="163.0" x2="225.3" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="171.7" x2="246.7" y2="153.3" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="184.7" x2="261.0" y2="174.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="240.0" y1="200.0" x2="266.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="215.3" x2="261.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="228.3" x2="246.7" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="237.0" x2="225.3" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="240.0" x2="200.0" y2="266.0" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="237.0" x2="174.7" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="228.3" x2="153.3" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="215.3" x2="139.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="160.0" y1="200.0" x2="134.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="184.7" x2="139.0" y2="174.7" stroke="var(--grey)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="171.7" x2="153.3" y2="153.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="163.0" x2="174.7" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="26" fill="var(--ink)" stroke="var(--grey)" stroke-width="2"/><circle cx="200" cy="200" r="8" fill="var(--ochre)"/><g class="playhead"><line x1="200" y1="170" x2="200" y2="6" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round" opacity=".85"/></g></svg>
+  </header>
+  <div class="layout">
+    <nav class="toc" aria-label="Chapters"><p class="toc-h">Chapters</p><ol><li><a href="#en-1"><span class="tn">01</span>Safety</a></li><li><a href="#en-2"><span class="tn">02</span>Installation</a></li><li><a href="#en-3"><span class="tn">03</span>The idea</a></li><li><a href="#en-4"><span class="tn">04</span>Controls</a></li><li><a href="#en-5"><span class="tn">05</span>Playing bass</a></li><li><a href="#en-6"><span class="tn">06</span>Bass sequencer</a></li><li><a href="#en-7"><span class="tn">07</span>Euclid drums</a></li><li><a href="#en-8"><span class="tn">08</span>Performance</a></li><li><a href="#en-9"><span class="tn">09</span>Presets and patterns</a></li><li><a href="#en-10"><span class="tn">10</span>Settings (MENU)</a></li><li><a href="#en-11"><span class="tn">11</span>Troubleshooting</a></li><li><a href="#en-12"><span class="tn">12</span>SMK-37</a></li></ol></nav>
+    <article class="body">
+<h2 id="en-1"><span class="num">01</span><span class="ht">Safety</span></h2>
+<ul>
+<li>DekBass produces very low frequencies. Always bring up the mixer and sound system level slowly.</li>
+<li>The built-in speaker cannot reproduce sub-bass. Never dial in sounds on the speaker alone – on a real system the bass will be far too loud.</li>
+<li>The subsonic filter and limiter are on by default. Only switch them off if you know exactly what your system can handle.</li>
+<li>Wear ear protection at loud sessions.</li>
+</ul>
+<h2 id="en-2"><span class="num">02</span><span class="ht">Installation</span></h2>
+<ol>
+<li>Fully charge the FM-1 and connect it to your computer via USB-C.</li>
+<li>Open the DekBass installer in your browser (Chrome or Edge).</li>
+<li><strong>Make a backup</strong> of the presets and settings of your current firmware.</li>
+<li>Choose “Install” and wait until the FM-1 restarts. Do not unplug the cable.</li>
+<li><strong>Back to the original firmware:</strong> reinstall firmware V15 with the official M-VAVE updater.</li>
+</ol>
+<p>Install at your own risk.</p>
+<h2 id="en-3"><span class="num">03</span><span class="ht">The idea</span></h2>
+<p>DekBass has two views: <strong><span class="view view-bass">BASS</span></strong> and <strong><span class="view view-euclid">EUCLID</span></strong>. Both always run at the same time. <strong>Long-press <kbd>SEQ</kbd></strong> only changes what you see and what the four knobs control – the sound keeps playing.</p>
+<p>The top of the screen always shows tempo, the current preset (e.g. A07) and a small indicator for the other view. The bottom shows the four parameters the knobs control right now.</p>
+<h2 id="en-4"><span class="num">04</span><span class="ht">Controls</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>FM-1</th>
+<th>SMK-37</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knob 1–4</td>
+<td>KNOB 1–4</td>
+<td>K5–K8</td>
+<td>The four parameters of the current page</td>
+</tr>
+<tr>
+<td><kbd>MASTER</kbd></td>
+<td><kbd>MASTER</kbd></td>
+<td>K1</td>
+<td>Master volume</td>
+</tr>
+<tr>
+<td><kbd>TEMPO</kbd></td>
+<td><kbd>SELECT</kbd></td>
+<td>K2</td>
+<td>Tempo</td>
+</tr>
+<tr>
+<td>ENGINE / <kbd>FOCUS</kbd></td>
+<td><kbd>ALGORITHM</kbd></td>
+<td>K3</td>
+<td><span class="view view-bass">BASS</span>: choose the engine. <span class="view view-euclid">EUCLID</span>: the voice in focus</td>
+</tr>
+<tr>
+<td><kbd>PRESET</kbd></td>
+<td><kbd>PRESETS</kbd></td>
+<td>K4</td>
+<td>Choose a sound preset</td>
+</tr>
+<tr>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>SEQ PLAY</kbd></td>
+<td>Start/stop</td>
+</tr>
+<tr>
+<td><kbd>REC</kbd></td>
+<td><kbd>REC</kbd></td>
+<td><kbd>SEQ REC</kbd></td>
+<td>Live recording into the bass sequencer</td>
+</tr>
+<tr>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td>Short: edit sequencer. Long: <span class="view view-bass">BASS</span> ↔ <span class="view view-euclid">EUCLID</span></td>
+</tr>
+<tr>
+<td><kbd>MENU</kbd></td>
+<td><kbd>HOME</kbd></td>
+<td><kbd>PATCH</kbd></td>
+<td>Settings</td>
+</tr>
+<tr>
+<td><kbd>BANK</kbd></td>
+<td><kbd>SAVE</kbd></td>
+<td><kbd>BT</kbd></td>
+<td>Load presets; with <kbd>SHIFT</kbd>: save</td>
+</tr>
+<tr>
+<td><kbd>SHIFT</kbd></td>
+<td><kbd>GLO</kbd></td>
+<td><kbd>GLOBE</kbd></td>
+<td>Second layer of every button</td>
+</tr>
+<tr>
+<td><kbd>PAGE</kbd></td>
+<td><kbd>EDIT</kbd></td>
+<td><kbd>PARA</kbd></td>
+<td>Next page. <kbd>SHIFT</kbd> + <kbd>PAGE</kbd>: the page's four values back to default</td>
+</tr>
+<tr>
+<td><kbd>DROP</kbd></td>
+<td>FX</td>
+<td>FX</td>
+<td>Performance (chapter 8)</td>
+</tr>
+<tr>
+<td><kbd>BUILD</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td>Performance (chapter 8)</td>
+</tr>
+<tr>
+<td><kbd>CUT</kbd></td>
+<td>ENV</td>
+<td><kbd>CHORD</kbd></td>
+<td>Performance (chapter 8)</td>
+</tr>
+<tr>
+<td><kbd>FILL</kbd></td>
+<td>LFO</td>
+<td><kbd>NOTE REPEAT</kbd></td>
+<td>Performance (chapter 8)</td>
+</tr>
+<tr>
+<td><kbd>KONARK</kbd></td>
+<td><kbd>SEL</kbd></td>
+<td><kbd>SCALE</kbd></td>
+<td>Konark view on/off</td>
+</tr>
+<tr>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCTAVE−</kbd> / <kbd>OCTAVE+</kbd></td>
+<td>Octave</td>
+</tr>
+<tr>
+<td>White keys</td>
+<td>F3–G5</td>
+<td>middle 27 keys</td>
+<td>Notes; in the sequencer: steps 1–16; in <span class="view view-euclid">EUCLID</span>: F3–B3 = mute <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>The knobs cannot be pressed. Everything you trigger is on a button.</p>
+<h2 id="en-5"><span class="num">05</span><span class="ht">Playing bass</span></h2>
+<h3>Engines</h3>
+<p>The ENGINE encoder (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3) selects one of four engines:</p>
+<ul>
+<li><strong>SUB</strong> – pure, deep sine bass with harmonics. For box basses and long drops.</li>
+<li><strong>FM</strong> – hard, metallic basses.</li>
+<li><strong>PD</strong> – growls and “talking” mids.</li>
+<li><strong>FX</strong> – siren, laser, horn, noise.</li>
+</ul>
+<p>The four knobs on ENGINE are macros of the selected engine. All other pages are the same for every engine.</p>
+<h3>Pages</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Page</th>
+<th>Knob 1</th>
+<th>Knob 2</th>
+<th>Knob 3</th>
+<th>Knob 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PERFORM</td>
+<td>Cutoff</td>
+<td>Resonance</td>
+<td>Drive</td>
+<td>Glide</td>
+</tr>
+<tr>
+<td>ENGINE</td>
+<td>Macro 1</td>
+<td>Macro 2</td>
+<td>Macro 3</td>
+<td>Macro 4</td>
+</tr>
+<tr>
+<td>PITCH</td>
+<td>Pitch env depth</td>
+<td>Pitch env time</td>
+<td>Sub level</td>
+<td>Octave/tune</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>Attack</td>
+<td>Decay</td>
+<td>Sustain</td>
+<td>Release</td>
+</tr>
+<tr>
+<td>LFO</td>
+<td>Rate</td>
+<td>Depth</td>
+<td>Target</td>
+<td>Shape</td>
+</tr>
+<tr>
+<td>FX</td>
+<td>Chain</td>
+<td>Crush</td>
+<td>Delay</td>
+<td>Space</td>
+</tr>
+</tbody>
+</table></div>
+<p>With <kbd>SHIFT</kbd>: ENV → filter envelope, LFO → LFO 2, FX → delay time, feedback, space size, output level.</p>
+<p><strong>Tip for the classic dek bass sweep:</strong> PITCH page, pitch env depth +24, time around 300 ms, then add a little glide on PERFORM.</p>
+<h3>Effect chains</h3>
+<ul>
+<li><strong>CLASSIC:</strong> drive before the filter – warm.</li>
+<li><strong>DIRTY:</strong> drive after the filter – aggressive.</li>
+<li><strong>SUB-SAFE:</strong> distortion only in the mids, the sub stays clean. Recommended for big systems.</li>
+</ul>
+<h2 id="en-6"><span class="num">06</span><span class="ht">Bass sequencer</span></h2>
+<ol>
+<li>Short-press <kbd>SEQ</kbd> → sequencer edit.</li>
+<li><strong>Enter a step:</strong> hold the white key for the step and play a note.</li>
+<li><strong>Record live:</strong> <kbd>REC</kbd>, then <kbd>PLAY</kbd>, then play.</li>
+<li><strong>Step details:</strong> hold a step and turn the knobs – knob 1 gate/tie, knob 2 probability, knob 3 ratchet (1–4), knob 4 slide/accent.</li>
+<li><strong>Parameter lock:</strong> hold a step and turn a parameter on any sound page. Up to 4 different parameters per pattern.</li>
+<li><strong>Length:</strong> <kbd>SHIFT</kbd> + <kbd>SEQ</kbd>, then knob 1 (1–64 steps). In sequencer edit, <kbd>PAGE</kbd> moves through steps 1–16, 17–32 and so on. On the SMK-37, &lt; and &gt; also show the step pages on the pads outside the editor.</li>
+<li><strong>Conditions:</strong> hold step + <kbd>SHIFT</kbd> + knob 2: always, every 2nd pass, every 4th pass, <kbd>FILL</kbd> only.</li>
+<li><strong>Swing:</strong> in <kbd>MENU</kbd>, 50–75 %.</li>
+</ol>
+<h2 id="en-7"><span class="num">07</span><span class="ht">Euclid drums</span></h2>
+<h3>The four wheels</h3>
+<p>Each voice is a wheel with 16 spokes – one spoke per step. Wide spokes sit on the eighth notes, narrow ones in between. Lit spokes are hits.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Wheel</th>
+<th>Colour</th>
+<th>Default</th>
+<th>Models</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="vchip v1">V1</span></td>
+<td>Red</td>
+<td>Kick</td>
+<td>Kick, Sub kick, Box kick</td>
+</tr>
+<tr>
+<td><span class="vchip v2">V2</span></td>
+<td>Ochre</td>
+<td>Snare</td>
+<td>Snare, Clap, Rim</td>
+</tr>
+<tr>
+<td><span class="vchip v3">V3</span></td>
+<td>Indigo</td>
+<td>Perc</td>
+<td>Hat, Metal perc, Shaker</td>
+</tr>
+<tr>
+<td><span class="vchip v4">V4</span></td>
+<td>Grey</td>
+<td>FX</td>
+<td>Siren hit, Laser, Horn, Noise</td>
+</tr>
+</tbody>
+</table></div><figure class="wheels"><svg viewBox="0 0 360 380" role="img" aria-label="Four voices, four wheels: V1 kick 4 hits, V2 snare 2 (rotate 4), V3 perc 7, V4 FX 3. Wide spokes = eighth notes, narrow = the sixteenths between."><circle cx="90" cy="84" r="66" fill="none" stroke="var(--red)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="84" r="11.9" fill="var(--ink)" stroke="var(--red)" stroke-width="2.0"/><line x1="90.0" y1="68.2" x2="90.0" y2="23.3" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="18.0" r="3.2" fill="var(--red)"/><line x1="96.1" y1="69.4" x2="113.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="72.8" x2="132.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="77.9" x2="146.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="105.8" y1="84.0" x2="150.7" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="156.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="104.6" y1="90.1" x2="146.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="95.2" x2="132.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="98.6" x2="113.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="90.0" y1="99.8" x2="90.0" y2="144.7" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="150.0" r="3.2" fill="var(--red)"/><line x1="83.9" y1="98.6" x2="66.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="95.2" x2="47.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="75.4" y1="90.1" x2="33.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="84.0" x2="29.3" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="75.4" y1="77.9" x2="33.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="72.8" x2="47.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="69.4" x2="66.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="182" text-anchor="middle" class="vlabel" fill="var(--red)">V1</text><circle cx="270" cy="84" r="66" fill="none" stroke="var(--ochre)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="84" r="11.9" fill="var(--ink)" stroke="var(--ochre)" stroke-width="2.0"/><line x1="270.0" y1="68.2" x2="270.0" y2="23.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="69.4" x2="293.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="72.8" x2="312.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="77.9" x2="326.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="84.0" x2="330.7" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="336.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="284.6" y1="90.1" x2="326.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="95.2" x2="312.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="98.6" x2="293.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="99.8" x2="270.0" y2="144.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="98.6" x2="246.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="95.2" x2="227.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="90.1" x2="213.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="84.0" x2="209.3" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="204.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="255.4" y1="77.9" x2="213.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="72.8" x2="227.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="69.4" x2="246.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="182" text-anchor="middle" class="vlabel" fill="var(--ochre)">V2</text><circle cx="90" cy="280" r="66" fill="none" stroke="var(--indigo)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="280" r="11.9" fill="var(--ink)" stroke="var(--indigo)" stroke-width="2.0"/><line x1="90.0" y1="264.2" x2="90.0" y2="219.3" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="214.0" r="3.2" fill="var(--indigo)"/><line x1="96.1" y1="265.4" x2="113.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="268.8" x2="132.9" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="273.9" x2="146.1" y2="256.8" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="254.7" r="3.2" fill="var(--indigo)"/><line x1="105.8" y1="280.0" x2="150.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="286.1" x2="146.1" y2="303.2" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="305.3" r="3.2" fill="var(--indigo)"/><line x1="101.2" y1="291.2" x2="132.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="294.6" x2="113.2" y2="336.1" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="115.3" cy="341.0" r="3.2" fill="var(--indigo)"/><line x1="90.0" y1="295.8" x2="90.0" y2="340.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="294.6" x2="66.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="291.2" x2="47.1" y2="322.9" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="326.7" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="286.1" x2="33.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="280.0" x2="29.3" y2="280.0" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="280.0" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="273.9" x2="33.9" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="268.8" x2="47.1" y2="237.1" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="233.3" r="3.2" fill="var(--indigo)"/><line x1="83.9" y1="265.4" x2="66.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="378" text-anchor="middle" class="vlabel" fill="var(--indigo)">V3</text><circle cx="270" cy="280" r="66" fill="none" stroke="var(--grey)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="280" r="11.9" fill="var(--ink)" stroke="var(--grey)" stroke-width="2.0"/><line x1="270.0" y1="264.2" x2="270.0" y2="219.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="265.4" x2="293.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="268.8" x2="312.9" y2="237.1" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="316.7" cy="233.3" r="3.2" fill="var(--grey)"/><line x1="284.6" y1="273.9" x2="326.1" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="280.0" x2="330.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="286.1" x2="326.1" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="291.2" x2="312.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="294.6" x2="293.2" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="295.8" x2="270.0" y2="340.7" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="270.0" cy="346.0" r="3.2" fill="var(--grey)"/><line x1="263.9" y1="294.6" x2="246.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="291.2" x2="227.1" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="286.1" x2="213.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="280.0" x2="209.3" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="273.9" x2="213.9" y2="256.8" stroke="var(--grey)" stroke-width="2.2" stroke-linecap="round"/><circle cx="209.0" cy="254.7" r="3.2" fill="var(--grey)"/><line x1="258.8" y1="268.8" x2="227.1" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="265.4" x2="246.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="378" text-anchor="middle" class="vlabel" fill="var(--grey)">V4</text></svg><figcaption>Four voices, four wheels: V1 kick 4 hits, V2 snare 2 (rotate 4), V3 perc 7, V4 FX 3. Wide spokes = eighth notes, narrow = the sixteenths between.</figcaption></figure>
+<h3>Pages</h3>
+<ul>
+<li><strong>HITS:</strong> number of hits per voice (0–16). <kbd>SHIFT</kbd> + turn = voice length (1–16) for polyrhythms.</li>
+<li><strong>ROTATE:</strong> shifts the pattern (0–15 steps).</li>
+<li><strong>LEVEL:</strong> volume – the wheel grows or shrinks.</li>
+<li><strong>SOUND:</strong> tune, decay, tone, drive of the focused voice. Change model: <kbd>SHIFT</kbd> + knob 1.</li>
+</ul>
+<h3>Mute, solo, focus</h3>
+<ul>
+<li><strong>Mute:</strong> in the <span class="view view-euclid">EUCLID</span> view, the white keys F3, G3, A3 and B3 mute or unmute <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span>. On the SMK-37, pads 5–8 do the same.</li>
+<li><strong>Solo:</strong> <kbd>SHIFT</kbd> + the same key or pad.</li>
+<li><strong>Focus:</strong> the <kbd>FOCUS</kbd> encoder (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3). The last voice you changed gets focus automatically.</li>
+<li>The other keys keep playing the bass in the <span class="view view-euclid">EUCLID</span> view.</li>
+</ul>
+<h3>More settings (<kbd>MENU</kbd>)</h3>
+<ul>
+<li><strong>Distribution:</strong> Euclidean (even) or block.</li>
+<li><strong>Mutate:</strong> small random variation per bar, 0–100 %.</li>
+<li><strong>Duck:</strong> the kick briefly lowers the bass so both stay clear.</li>
+</ul>
+<p><strong>Konark view:</strong> the <kbd>KONARK</kbd> button (FM-1: <kbd>SEL</kbd>, SMK-37: <kbd>SCALE</kbd>) shows all four voices as rings in one large wheel. Press it again to go back.</p>
+<h2 id="en-8"><span class="num">08</span><span class="ht">Performance</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Button</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><kbd>DROP</kbd></strong> (hold)</td>
+<td>Pitch falls, filter closes, delay rises, only the kick plays. Release = back on the next downbeat</td>
+</tr>
+<tr>
+<td><strong><kbd>BUILD</kbd></strong> (hold)</td>
+<td>Riser over 1/2/4/8 bars (set in <kbd>MENU</kbd>). Release = drop on the next downbeat</td>
+</tr>
+<tr>
+<td><strong><kbd>CUT</kbd></strong> (tap)</td>
+<td>Everything silent until the next downbeat</td>
+</tr>
+<tr>
+<td><strong><kbd>FILL</kbd></strong> (hold)</td>
+<td>Snare and perc double, <kbd>FILL</kbd> steps in the bass play</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="en-9"><span class="num">09</span><span class="ht">Presets and patterns</span></h2>
+<ul>
+<li><strong>Banks:</strong> A and B are factory presets (protected), C and D are yours. C01–C04 hold neutral starting points.</li>
+<li><strong>Quick change:</strong> the <kbd>PRESET</kbd> encoder (FM-1: <kbd>PRESETS</kbd>, SMK-37: K4).</li>
+<li><strong>Load from the bank page:</strong> press <kbd>BANK</kbd>, knob 1 selects the bank, knob 2 the preset.</li>
+<li><strong>Save:</strong> <kbd>SHIFT</kbd> + <kbd>BANK</kbd>, choose a slot in C or D, confirm. The unit asks whether to link the current pattern.</li>
+<li><strong>Patterns</strong> (bassline + drums) have 64 slots of their own: <kbd>SEQ</kbd> + <kbd>BANK</kbd>.</li>
+<li><strong>Load mode</strong> (<kbd>MENU</kbd>): “SOUND” changes only the sound – drums keep running. “SOUND + PATTERN” changes both on the next downbeat.</li>
+<li><strong>Init sound:</strong> hold <kbd>SHIFT</kbd> + <kbd>BANK</kbd>.</li>
+</ul>
+<h2 id="en-10"><span class="num">10</span><span class="ht">Settings (MENU)</span></h2>
+<p>Set the tempo with the <kbd>TEMPO</kbd> encoder (FM-1: <kbd>SELECT</kbd>, SMK-37: K2). In <kbd>MENU</kbd>: clock (internal / MIDI slave / MIDI master), MIDI channel, subsonic filter (20/25/30/35 Hz), limiter, mono sum, load mode, swing, <kbd>BUILD</kbd> length, display brightness, key velocity (SMK-37 only), factory reset (sounds / patterns / settings separately).</p>
+<h2 id="en-11"><span class="num">11</span><span class="ht">Troubleshooting</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No bass audible</td>
+<td>Use headphones or a system – the speaker does not play sub. Check load mode and mutes</td>
+</tr>
+<tr>
+<td>Bass gets quieter during sweeps</td>
+<td>The subsonic filter removes frequencies below its limit. Intended, for protection</td>
+</tr>
+<tr>
+<td>Drums don’t follow external clock</td>
+<td><kbd>MENU</kbd> → set clock to MIDI slave</td>
+</tr>
+<tr>
+<td>Preset cannot be saved</td>
+<td>Banks A and B are protected – save to C or D</td>
+</tr>
+<tr>
+<td>Unit no longer starts</td>
+<td>Install firmware V15 with the official M-VAVE updater, then reinstall DekBass</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="en-12"><span class="num">12</span><span class="ht">SMK-37</span></h2>
+<p>DekBass also runs on the SMK-37 Pro, the SMK-37 Elite and the MKE-P37; the Starrykey 37 Play uses the Pro package. Everything in chapters 3–11 applies there too. In addition:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 outer keys (C3–E3, G♯5–C6)</td>
+<td>More bass notes, mainly downwards</td>
+</tr>
+<tr>
+<td>Pads in <span class="view view-bass">BASS</span></td>
+<td>The 16 steps of the current step page in ochre, playhead bright</td>
+</tr>
+<tr>
+<td>Pads in <span class="view view-euclid">EUCLID</span></td>
+<td>1–4 play <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> by hand, 5–8 mute <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> (<kbd>SHIFT</kbd>: solo), 9–12 <kbd>DROP</kbd>, <kbd>BUILD</kbd>, <kbd>CUT</kbd>, <kbd>FILL</kbd>, 13–16 patterns 1–4 (change on the next downbeat)</td>
+</tr>
+<tr>
+<td>Faders 1–4</td>
+<td>Pitch-sweep depth, delay throw, duck, bass/drums balance. A fader acts only once you move it</td>
+</tr>
+<tr>
+<td>Pitch wheel</td>
+<td>Bend on the bass, ±12 semitones</td>
+</tr>
+<tr>
+<td>Mod wheel</td>
+<td><kbd>BUILD</kbd> by hand: filter opens, noise rises, ratchets double</td>
+</tr>
+<tr>
+<td><kbd>KNOB BANK</kbd></td>
+<td>Pattern chain</td>
+</tr>
+<tr>
+<td><kbd>FADER BANK</kbd></td>
+<td>Shows the four fader macros large</td>
+</tr>
+<tr>
+<td>&lt; / &gt;</td>
+<td>Move through the bass sequencer's step pages</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>The SMK-37 has no TRS MIDI input: MIDI clock comes over USB only.</li>
+<li>Make a full flash backup before the first install (instructions in SMK37.md in the repository). The calibration and the way back to the stock firmware stay untouched.</li>
+<li>On its first start, DekBass clears the stock firmware's settings area.</li>
+<li>Packages: dekbass-smk37.fwsc (Pro), dekbass-smk37-elite.fwsc, dekbass-smk37-mke.fwsc.</li>
+</ul>
+      <footer class="foot"><p>DekBass is free software under GPL-3.0, built on Felucca. <a href="https://github.com/g0rst/DekBass-FM1">github.com/g0rst/DekBass-FM1</a></p></footer>
+    </article>
+  </div>
+</section>
+<section class="lang" id="hi" lang="hi" data-lang="hi">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">यूज़र मैनुअल · M-VAVE FM-1 और M-Vave SMK-37 के लिए फ़र्मवेयर v1.0</p>
+      <h1><span class="word">DEKBASS</span><span class="board">FM-1 · SMK-37</span></h1>
+      <p class="lead">M-VAVE FM-1 और M-Vave SMK-37 के लिए फ़र्मवेयर v1.0। बड़े अक्षरों में लिखे नाम DekBass के फ़ंक्शन हैं; FM-1 और SMK-37 पर कौन सा बटन किस फ़ंक्शन का है, यह अध्याय 4 में है। SMK-37 की अतिरिक्त सुविधाएँ अध्याय 12 में हैं।</p>
+    </div>
+    <svg class="konark" viewBox="0 0 400 400" role="img" aria-label="Konark view: four voices as rings"><circle cx="200" cy="200" r="186" fill="none" stroke="var(--red)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="50.0" x2="200.0" y2="18.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="61.4" x2="269.6" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="93.9" x2="328.7" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="142.6" x2="368.1" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="350.0" y1="200.0" x2="382.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="257.4" x2="368.1" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="306.1" x2="328.7" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="338.6" x2="269.6" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="350.0" x2="200.0" y2="382.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="338.6" x2="130.4" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="306.1" x2="71.3" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="257.4" x2="31.9" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="50.0" y1="200.0" x2="18.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="142.6" x2="31.9" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="93.9" x2="71.3" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="61.4" x2="130.4" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="146" fill="none" stroke="var(--ochre)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="88.0" x2="200.0" y2="58.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="96.5" x2="254.3" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="120.8" x2="300.4" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="157.1" x2="331.2" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="312.0" y1="200.0" x2="342.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="242.9" x2="331.2" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="279.2" x2="300.4" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="303.5" x2="254.3" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="312.0" x2="200.0" y2="342.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="303.5" x2="145.7" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="279.2" x2="99.6" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="242.9" x2="68.8" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="88.0" y1="200.0" x2="58.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="157.1" x2="68.8" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="120.8" x2="99.6" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="96.5" x2="145.7" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="108" fill="none" stroke="var(--indigo)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="126.0" x2="200.0" y2="96.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="131.6" x2="239.8" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="147.7" x2="273.5" y2="126.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="171.7" x2="296.1" y2="160.2" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="274.0" y1="200.0" x2="304.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="228.3" x2="296.1" y2="239.8" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="252.3" x2="273.5" y2="273.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="268.4" x2="239.8" y2="296.1" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="274.0" x2="200.0" y2="304.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="268.4" x2="160.2" y2="296.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="252.3" x2="126.5" y2="273.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="228.3" x2="103.9" y2="239.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="126.0" y1="200.0" x2="96.0" y2="200.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="171.7" x2="103.9" y2="160.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="147.7" x2="126.5" y2="126.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="131.6" x2="160.2" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="70" fill="none" stroke="var(--grey)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="160.0" x2="200.0" y2="134.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="163.0" x2="225.3" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="171.7" x2="246.7" y2="153.3" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="184.7" x2="261.0" y2="174.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="240.0" y1="200.0" x2="266.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="215.3" x2="261.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="228.3" x2="246.7" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="237.0" x2="225.3" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="240.0" x2="200.0" y2="266.0" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="237.0" x2="174.7" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="228.3" x2="153.3" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="215.3" x2="139.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="160.0" y1="200.0" x2="134.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="184.7" x2="139.0" y2="174.7" stroke="var(--grey)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="171.7" x2="153.3" y2="153.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="163.0" x2="174.7" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="26" fill="var(--ink)" stroke="var(--grey)" stroke-width="2"/><circle cx="200" cy="200" r="8" fill="var(--ochre)"/><g class="playhead"><line x1="200" y1="170" x2="200" y2="6" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round" opacity=".85"/></g></svg>
+  </header>
+  <div class="layout">
+    <nav class="toc" aria-label="अध्याय"><p class="toc-h">अध्याय</p><ol><li><a href="#hi-1"><span class="tn">01</span>सुरक्षा</a></li><li><a href="#hi-2"><span class="tn">02</span>इंस्टॉलेशन</a></li><li><a href="#hi-3"><span class="tn">03</span>मूल विचार</a></li><li><a href="#hi-4"><span class="tn">04</span>कंट्रोल</a></li><li><a href="#hi-5"><span class="tn">05</span>बेस बजाना</a></li><li><a href="#hi-6"><span class="tn">06</span>बेस सीक्वेंसर</a></li><li><a href="#hi-7"><span class="tn">07</span>यूक्लिड ड्रम्स</a></li><li><a href="#hi-8"><span class="tn">08</span>परफ़ॉर्मेंस</a></li><li><a href="#hi-9"><span class="tn">09</span>प्रीसेट और पैटर्न</a></li><li><a href="#hi-10"><span class="tn">10</span>सेटिंग्स (MENU)</a></li><li><a href="#hi-11"><span class="tn">11</span>समस्या और समाधान</a></li><li><a href="#hi-12"><span class="tn">12</span>SMK-37</a></li></ol></nav>
+    <article class="body">
+<h2 id="hi-1"><span class="num">01</span><span class="ht">सुरक्षा</span></h2>
+<ul>
+<li>DekBass बहुत गहरी फ़्रीक्वेंसी बनाता है। मिक्सर और साउंड सिस्टम का वॉल्यूम हमेशा धीरे-धीरे बढ़ाएँ।</li>
+<li>अंदर लगा स्पीकर सब-बेस नहीं बजाता। सिर्फ़ स्पीकर पर साउंड सेट न करें – बड़े सिस्टम पर बेस बहुत ज़्यादा तेज़ हो जाएगा।</li>
+<li>सबसोनिक फ़िल्टर और लिमिटर शुरू से चालू हैं। इन्हें तभी बंद करें जब आपको पक्का पता हो कि आपका सिस्टम क्या सह सकता है।</li>
+<li>तेज़ आवाज़ वाले सेशन में कानों की सुरक्षा (इयरप्लग) का इस्तेमाल करें।</li>
+</ul>
+<h2 id="hi-2"><span class="num">02</span><span class="ht">इंस्टॉलेशन</span></h2>
+<ol>
+<li>FM-1 को पूरा चार्ज करें और USB-C से कंप्यूटर से जोड़ें।</li>
+<li>ब्राउज़र (Chrome या Edge) में DekBass इंस्टॉलर खोलें।</li>
+<li><strong>बैकअप बनाएँ:</strong> मौजूदा फ़र्मवेयर के प्रीसेट और सेटिंग्स सेव करें।</li>
+<li>“Install” चुनें और FM-1 के रीस्टार्ट होने तक इंतज़ार करें। इस दौरान केबल न निकालें।</li>
+<li><strong>मूल फ़र्मवेयर पर वापसी:</strong> M-VAVE के ऑफ़िशियल अपडेटर से फ़र्मवेयर V15 दोबारा डालें।</li>
+</ol>
+<p>इंस्टॉलेशन अपनी ज़िम्मेदारी पर करें।</p>
+<h2 id="hi-3"><span class="num">03</span><span class="ht">मूल विचार</span></h2>
+<p>DekBass में दो व्यू हैं: <strong><span class="view view-bass">BASS</span></strong> और <strong><span class="view view-euclid">EUCLID</span></strong>। दोनों हमेशा एक साथ चलते हैं। <strong><kbd>SEQ</kbd> को दबाकर रखने से</strong> सिर्फ़ स्क्रीन और चार नॉब का काम बदलता है – आवाज़ चलती रहती है।</p>
+<p>स्क्रीन के ऊपर हमेशा टेम्पो, मौजूदा प्रीसेट (जैसे A07) और दूसरे व्यू का छोटा संकेत दिखता है। नीचे वे चार पैरामीटर दिखते हैं जो नॉब अभी कंट्रोल कर रहे हैं।</p>
+<h2 id="hi-4"><span class="num">04</span><span class="ht">कंट्रोल</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>फ़ंक्शन</th>
+<th>FM-1</th>
+<th>SMK-37</th>
+<th>काम</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>नॉब 1–4</td>
+<td>KNOB 1–4</td>
+<td>K5–K8</td>
+<td>मौजूदा पेज के चार पैरामीटर</td>
+</tr>
+<tr>
+<td><kbd>MASTER</kbd></td>
+<td><kbd>MASTER</kbd></td>
+<td>K1</td>
+<td>कुल वॉल्यूम</td>
+</tr>
+<tr>
+<td><kbd>TEMPO</kbd></td>
+<td><kbd>SELECT</kbd></td>
+<td>K2</td>
+<td>टेम्पो</td>
+</tr>
+<tr>
+<td>ENGINE / <kbd>FOCUS</kbd></td>
+<td><kbd>ALGORITHM</kbd></td>
+<td>K3</td>
+<td><span class="view view-bass">BASS</span>: इंजन चुनना। <span class="view view-euclid">EUCLID</span>: फ़ोकस वाली वॉइस</td>
+</tr>
+<tr>
+<td><kbd>PRESET</kbd></td>
+<td><kbd>PRESETS</kbd></td>
+<td>K4</td>
+<td>साउंड प्रीसेट चुनना</td>
+</tr>
+<tr>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>SEQ PLAY</kbd></td>
+<td>शुरू/बंद</td>
+</tr>
+<tr>
+<td><kbd>REC</kbd></td>
+<td><kbd>REC</kbd></td>
+<td><kbd>SEQ REC</kbd></td>
+<td>बेस सीक्वेंसर में लाइव रिकॉर्डिंग</td>
+</tr>
+<tr>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td>छोटा दबाना: सीक्वेंसर एडिट। दबाकर रखना: <span class="view view-bass">BASS</span> ↔ <span class="view view-euclid">EUCLID</span></td>
+</tr>
+<tr>
+<td><kbd>MENU</kbd></td>
+<td><kbd>HOME</kbd></td>
+<td><kbd>PATCH</kbd></td>
+<td>सेटिंग्स</td>
+</tr>
+<tr>
+<td><kbd>BANK</kbd></td>
+<td><kbd>SAVE</kbd></td>
+<td><kbd>BT</kbd></td>
+<td>प्रीसेट लोड; <kbd>SHIFT</kbd> के साथ सेव</td>
+</tr>
+<tr>
+<td><kbd>SHIFT</kbd></td>
+<td><kbd>GLO</kbd></td>
+<td><kbd>GLOBE</kbd></td>
+<td>हर बटन की दूसरी परत</td>
+</tr>
+<tr>
+<td><kbd>PAGE</kbd></td>
+<td><kbd>EDIT</kbd></td>
+<td><kbd>PARA</kbd></td>
+<td>अगला पेज। <kbd>SHIFT</kbd> + <kbd>PAGE</kbd>: पेज के चारों मान डिफ़ॉल्ट पर</td>
+</tr>
+<tr>
+<td><kbd>DROP</kbd></td>
+<td>FX</td>
+<td>FX</td>
+<td>परफ़ॉर्मेंस (अध्याय 8)</td>
+</tr>
+<tr>
+<td><kbd>BUILD</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td>परफ़ॉर्मेंस (अध्याय 8)</td>
+</tr>
+<tr>
+<td><kbd>CUT</kbd></td>
+<td>ENV</td>
+<td><kbd>CHORD</kbd></td>
+<td>परफ़ॉर्मेंस (अध्याय 8)</td>
+</tr>
+<tr>
+<td><kbd>FILL</kbd></td>
+<td>LFO</td>
+<td><kbd>NOTE REPEAT</kbd></td>
+<td>परफ़ॉर्मेंस (अध्याय 8)</td>
+</tr>
+<tr>
+<td><kbd>KONARK</kbd></td>
+<td><kbd>SEL</kbd></td>
+<td><kbd>SCALE</kbd></td>
+<td>कोणार्क व्यू चालू/बंद</td>
+</tr>
+<tr>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCTAVE−</kbd> / <kbd>OCTAVE+</kbd></td>
+<td>ऑक्टेव</td>
+</tr>
+<tr>
+<td>सफ़ेद कुंजियाँ</td>
+<td>F3–G5</td>
+<td>बीच की 27 कुंजियाँ</td>
+<td>नोट; सीक्वेंसर में स्टेप 1–16; <span class="view view-euclid">EUCLID</span> में: F3–B3 = <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> म्यूट</td>
+</tr>
+</tbody>
+</table></div>
+<p>नॉब दबाए नहीं जा सकते। हर काम बटनों से होता है।</p>
+<h2 id="hi-5"><span class="num">05</span><span class="ht">बेस बजाना</span></h2>
+<h3>इंजन</h3>
+<p>ENGINE एनकोडर (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3) से चार इंजन में से एक चुनें:</p>
+<ul>
+<li><strong>SUB</strong> – साफ़, गहरा साइन बेस। बॉक्स बेस और लंबे ड्रॉप के लिए।</li>
+<li><strong>FM</strong> – कठोर, धातु जैसे बेस।</li>
+<li><strong>PD</strong> – ग्राउल और “बोलते हुए” मिड्स।</li>
+<li><strong>FX</strong> – सायरन, लेज़र, हॉर्न, नॉइज़।</li>
+</ul>
+<p>ENGINE पेज के चार नॉब चुने गए इंजन के मैक्रो हैं। बाकी सभी पेज हर इंजन के लिए एक जैसे हैं।</p>
+<h3>पेज</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>पेज</th>
+<th>नॉब 1</th>
+<th>नॉब 2</th>
+<th>नॉब 3</th>
+<th>नॉब 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PERFORM</td>
+<td>Cutoff</td>
+<td>Resonance</td>
+<td>Drive</td>
+<td>Glide</td>
+</tr>
+<tr>
+<td>ENGINE</td>
+<td>Macro 1</td>
+<td>Macro 2</td>
+<td>Macro 3</td>
+<td>Macro 4</td>
+</tr>
+<tr>
+<td>PITCH</td>
+<td>Pitch env गहराई</td>
+<td>Pitch env समय</td>
+<td>Sub लेवल</td>
+<td>Octave/Tune</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>Attack</td>
+<td>Decay</td>
+<td>Sustain</td>
+<td>Release</td>
+</tr>
+<tr>
+<td>LFO</td>
+<td>Rate</td>
+<td>Depth</td>
+<td>Target</td>
+<td>Shape</td>
+</tr>
+<tr>
+<td>FX</td>
+<td>Chain</td>
+<td>Crush</td>
+<td>Delay</td>
+<td>Space</td>
+</tr>
+</tbody>
+</table></div>
+<p><kbd>SHIFT</kbd> के साथ: ENV → फ़िल्टर एन्वेलप, LFO → LFO 2, FX → डिले समय, फ़ीडबैक, स्पेस साइज़, आउटपुट लेवल।</p>
+<p><strong>क्लासिक डेक बेस स्वीप के लिए टिप:</strong> PITCH पेज पर Pitch env गहराई +24, समय लगभग 300 ms, फिर PERFORM पर थोड़ा Glide बढ़ाएँ।</p>
+<h3>इफ़ेक्ट चेन</h3>
+<ul>
+<li><strong>CLASSIC:</strong> फ़िल्टर से पहले ड्राइव – गर्म आवाज़।</li>
+<li><strong>DIRTY:</strong> फ़िल्टर के बाद ड्राइव – आक्रामक।</li>
+<li><strong>SUB-SAFE:</strong> डिस्टॉर्शन सिर्फ़ मिड्स में, सब साफ़ रहता है। बड़े सिस्टम के लिए सबसे अच्छा।</li>
+</ul>
+<h2 id="hi-6"><span class="num">06</span><span class="ht">बेस सीक्वेंसर</span></h2>
+<ol>
+<li><kbd>SEQ</kbd> छोटा दबाएँ → सीक्वेंसर एडिट।</li>
+<li><strong>स्टेप डालना:</strong> स्टेप की सफ़ेद कुंजी दबाकर रखें और नोट बजाएँ।</li>
+<li><strong>लाइव रिकॉर्ड:</strong> <kbd>REC</kbd>, फिर <kbd>PLAY</kbd>, फिर बजाएँ।</li>
+<li><strong>स्टेप डिटेल:</strong> स्टेप दबाकर रखें और नॉब घुमाएँ – नॉब 1 Gate/Tie, नॉब 2 Probability, नॉब 3 Ratchet (1–4), नॉब 4 Slide/Accent।</li>
+<li><strong>पैरामीटर लॉक:</strong> स्टेप दबाकर रखें और किसी साउंड पेज पर पैरामीटर घुमाएँ। एक पैटर्न में अधिकतम 4 पैरामीटर।</li>
+<li><strong>लंबाई:</strong> <kbd>SHIFT</kbd> + <kbd>SEQ</kbd>, फिर नॉब 1 (1–64 स्टेप)। सीक्वेंसर एडिट में <kbd>PAGE</kbd> से स्टेप 1–16, 17–32 आदि पर जाएँ। SMK-37 पर &lt; और &gt; एडिट के बाहर भी स्टेप पेज पैड पर दिखाते हैं।</li>
+<li><strong>शर्तें:</strong> स्टेप + <kbd>SHIFT</kbd> + नॉब 2: हमेशा, हर दूसरी बार, हर चौथी बार, सिर्फ़ <kbd>FILL</kbd> पर।</li>
+<li><strong>स्विंग:</strong> <kbd>MENU</kbd> में, 50–75 %।</li>
+</ol>
+<h2 id="hi-7"><span class="num">07</span><span class="ht">यूक्लिड ड्रम्स</span></h2>
+<h3>चार पहिए</h3>
+<p>हर वॉइस 16 तीलियों वाला एक पहिया है – हर स्टेप के लिए एक तीली। चौड़ी तीलियाँ आठवें नोट (8th) पर हैं, पतली उनके बीच में। चमकती तीलियाँ = हिट।</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>पहिया</th>
+<th>रंग</th>
+<th>डिफ़ॉल्ट</th>
+<th>मॉडल</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="vchip v1">V1</span></td>
+<td>लाल</td>
+<td>Kick</td>
+<td>Kick, Sub kick, Box kick</td>
+</tr>
+<tr>
+<td><span class="vchip v2">V2</span></td>
+<td>गेरुआ</td>
+<td>Snare</td>
+<td>Snare, Clap, Rim</td>
+</tr>
+<tr>
+<td><span class="vchip v3">V3</span></td>
+<td>नील (इंडिगो)</td>
+<td>Perc</td>
+<td>Hat, Metal perc, Shaker</td>
+</tr>
+<tr>
+<td><span class="vchip v4">V4</span></td>
+<td>स्लेटी</td>
+<td>FX</td>
+<td>Siren hit, Laser, Horn, Noise</td>
+</tr>
+</tbody>
+</table></div><figure class="wheels"><svg viewBox="0 0 360 380" role="img" aria-label="चार वॉइस, चार पहिए: V1 किक 4 हिट, V2 स्नेयर 2 (रोटेट 4), V3 पर्क 7, V4 FX 3। चौड़ी तीलियाँ = आठवें नोट, पतली = बीच के सोलहवें नोट।"><circle cx="90" cy="84" r="66" fill="none" stroke="var(--red)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="84" r="11.9" fill="var(--ink)" stroke="var(--red)" stroke-width="2.0"/><line x1="90.0" y1="68.2" x2="90.0" y2="23.3" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="18.0" r="3.2" fill="var(--red)"/><line x1="96.1" y1="69.4" x2="113.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="72.8" x2="132.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="77.9" x2="146.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="105.8" y1="84.0" x2="150.7" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="156.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="104.6" y1="90.1" x2="146.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="95.2" x2="132.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="98.6" x2="113.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="90.0" y1="99.8" x2="90.0" y2="144.7" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="150.0" r="3.2" fill="var(--red)"/><line x1="83.9" y1="98.6" x2="66.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="95.2" x2="47.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="75.4" y1="90.1" x2="33.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="84.0" x2="29.3" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="75.4" y1="77.9" x2="33.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="72.8" x2="47.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="69.4" x2="66.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="182" text-anchor="middle" class="vlabel" fill="var(--red)">V1</text><circle cx="270" cy="84" r="66" fill="none" stroke="var(--ochre)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="84" r="11.9" fill="var(--ink)" stroke="var(--ochre)" stroke-width="2.0"/><line x1="270.0" y1="68.2" x2="270.0" y2="23.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="69.4" x2="293.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="72.8" x2="312.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="77.9" x2="326.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="84.0" x2="330.7" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="336.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="284.6" y1="90.1" x2="326.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="95.2" x2="312.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="98.6" x2="293.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="99.8" x2="270.0" y2="144.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="98.6" x2="246.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="95.2" x2="227.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="90.1" x2="213.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="84.0" x2="209.3" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="204.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="255.4" y1="77.9" x2="213.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="72.8" x2="227.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="69.4" x2="246.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="182" text-anchor="middle" class="vlabel" fill="var(--ochre)">V2</text><circle cx="90" cy="280" r="66" fill="none" stroke="var(--indigo)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="280" r="11.9" fill="var(--ink)" stroke="var(--indigo)" stroke-width="2.0"/><line x1="90.0" y1="264.2" x2="90.0" y2="219.3" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="214.0" r="3.2" fill="var(--indigo)"/><line x1="96.1" y1="265.4" x2="113.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="268.8" x2="132.9" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="273.9" x2="146.1" y2="256.8" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="254.7" r="3.2" fill="var(--indigo)"/><line x1="105.8" y1="280.0" x2="150.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="286.1" x2="146.1" y2="303.2" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="305.3" r="3.2" fill="var(--indigo)"/><line x1="101.2" y1="291.2" x2="132.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="294.6" x2="113.2" y2="336.1" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="115.3" cy="341.0" r="3.2" fill="var(--indigo)"/><line x1="90.0" y1="295.8" x2="90.0" y2="340.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="294.6" x2="66.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="291.2" x2="47.1" y2="322.9" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="326.7" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="286.1" x2="33.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="280.0" x2="29.3" y2="280.0" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="280.0" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="273.9" x2="33.9" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="268.8" x2="47.1" y2="237.1" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="233.3" r="3.2" fill="var(--indigo)"/><line x1="83.9" y1="265.4" x2="66.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="378" text-anchor="middle" class="vlabel" fill="var(--indigo)">V3</text><circle cx="270" cy="280" r="66" fill="none" stroke="var(--grey)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="280" r="11.9" fill="var(--ink)" stroke="var(--grey)" stroke-width="2.0"/><line x1="270.0" y1="264.2" x2="270.0" y2="219.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="265.4" x2="293.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="268.8" x2="312.9" y2="237.1" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="316.7" cy="233.3" r="3.2" fill="var(--grey)"/><line x1="284.6" y1="273.9" x2="326.1" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="280.0" x2="330.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="286.1" x2="326.1" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="291.2" x2="312.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="294.6" x2="293.2" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="295.8" x2="270.0" y2="340.7" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="270.0" cy="346.0" r="3.2" fill="var(--grey)"/><line x1="263.9" y1="294.6" x2="246.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="291.2" x2="227.1" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="286.1" x2="213.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="280.0" x2="209.3" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="273.9" x2="213.9" y2="256.8" stroke="var(--grey)" stroke-width="2.2" stroke-linecap="round"/><circle cx="209.0" cy="254.7" r="3.2" fill="var(--grey)"/><line x1="258.8" y1="268.8" x2="227.1" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="265.4" x2="246.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="378" text-anchor="middle" class="vlabel" fill="var(--grey)">V4</text></svg><figcaption>चार वॉइस, चार पहिए: V1 किक 4 हिट, V2 स्नेयर 2 (रोटेट 4), V3 पर्क 7, V4 FX 3। चौड़ी तीलियाँ = आठवें नोट, पतली = बीच के सोलहवें नोट।</figcaption></figure>
+<h3>पेज</h3>
+<ul>
+<li><strong>HITS:</strong> हर वॉइस के हिट की गिनती (0–16)। <kbd>SHIFT</kbd> + घुमाना = वॉइस की लंबाई (1–16), पॉलीरिदम के लिए।</li>
+<li><strong>ROTATE:</strong> पैटर्न को खिसकाना (0–15 स्टेप)।</li>
+<li><strong>LEVEL:</strong> वॉल्यूम – पहिया बड़ा या छोटा होता है।</li>
+<li><strong>SOUND:</strong> फ़ोकस वाली वॉइस का Tune, Decay, Tone, Drive। मॉडल बदलना: <kbd>SHIFT</kbd> + नॉब 1।</li>
+</ul>
+<h3>म्यूट, सोलो, फ़ोकस</h3>
+<ul>
+<li><strong>म्यूट:</strong> <span class="view view-euclid">EUCLID</span> व्यू में सफ़ेद कुंजियाँ F3, G3, A3 और B3 वॉइस <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> को म्यूट या अनम्यूट करती हैं। SMK-37 पर पैड 5–8 भी यही करते हैं।</li>
+<li><strong>सोलो:</strong> <kbd>SHIFT</kbd> + वही कुंजी या पैड।</li>
+<li><strong>फ़ोकस:</strong> <kbd>FOCUS</kbd> एनकोडर (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3)। जिस वॉइस को आपने आखिरी बार बदला, उस पर फ़ोकस अपने आप आ जाता है।</li>
+<li><span class="view view-euclid">EUCLID</span> व्यू में बाकी कुंजियाँ बेस बजाती रहती हैं।</li>
+</ul>
+<h3>और सेटिंग्स (<kbd>MENU</kbd>)</h3>
+<ul>
+<li><strong>बँटवारा:</strong> यूक्लिडियन (बराबर) या ब्लॉक।</li>
+<li><strong>Mutate:</strong> हर बार में छोटा रैंडम बदलाव, 0–100 %।</li>
+<li><strong>Duck:</strong> किक बेस को पल भर के लिए धीमा करती है, ताकि दोनों साफ़ सुनाई दें।</li>
+</ul>
+<p><strong>कोणार्क व्यू:</strong> <kbd>KONARK</kbd> बटन (FM-1: <kbd>SEL</kbd>, SMK-37: <kbd>SCALE</kbd>) चारों वॉइस को एक बड़े पहिए में छल्लों की तरह दिखाता है। दोबारा दबाने पर वापस।</p>
+<h2 id="hi-8"><span class="num">08</span><span class="ht">परफ़ॉर्मेंस</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>बटन</th>
+<th>असर</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><kbd>DROP</kbd></strong> (दबाकर रखें)</td>
+<td>पिच गिरती है, फ़िल्टर बंद, डिले बढ़ता है, सिर्फ़ किक बजती है। छोड़ने पर अगली पहली बीट पर वापस</td>
+</tr>
+<tr>
+<td><strong><kbd>BUILD</kbd></strong> (दबाकर रखें)</td>
+<td>1/2/4/8 बार का राइज़र (<kbd>MENU</kbd> में)। छोड़ने पर अगली पहली बीट पर ड्रॉप</td>
+</tr>
+<tr>
+<td><strong><kbd>CUT</kbd></strong> (टैप)</td>
+<td>अगली पहली बीट तक सब चुप</td>
+</tr>
+<tr>
+<td><strong><kbd>FILL</kbd></strong> (दबाकर रखें)</td>
+<td>स्नेयर और पर्क दोगुने, बेस के <kbd>FILL</kbd> स्टेप बजते हैं</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="hi-9"><span class="num">09</span><span class="ht">प्रीसेट और पैटर्न</span></h2>
+<ul>
+<li><strong>बैंक:</strong> A और B फ़ैक्ट्री प्रीसेट हैं (सुरक्षित), C और D आपके लिए। C01–C04 में शुरुआती साउंड हैं।</li>
+<li><strong>जल्दी बदलना:</strong> <kbd>PRESET</kbd> एनकोडर (FM-1: <kbd>PRESETS</kbd>, SMK-37: K4)।</li>
+<li><strong>बैंक पेज से लोड:</strong> <kbd>BANK</kbd> दबाएँ, नॉब 1 से बैंक, नॉब 2 से प्रीसेट चुनें।</li>
+<li><strong>सेव:</strong> <kbd>SHIFT</kbd> + <kbd>BANK</kbd>, C या D में जगह चुनें, पुष्टि करें। डिवाइस पूछता है कि मौजूदा पैटर्न जोड़ना है या नहीं।</li>
+<li><strong>पैटर्न</strong> (बेसलाइन + ड्रम्स) के लिए 64 अलग जगहें: <kbd>SEQ</kbd> + <kbd>BANK</kbd>।</li>
+<li><strong>लोड मोड</strong> (<kbd>MENU</kbd>): “SOUND” सिर्फ़ आवाज़ बदलता है – ड्रम्स चलते रहते हैं। “SOUND + PATTERN” अगली पहली बीट पर दोनों बदलता है।</li>
+<li><strong>Init साउंड:</strong> <kbd>SHIFT</kbd> + <kbd>BANK</kbd> दबाकर रखें।</li>
+</ul>
+<h2 id="hi-10"><span class="num">10</span><span class="ht">सेटिंग्स (MENU)</span></h2>
+<p>टेम्पो <kbd>TEMPO</kbd> एनकोडर (FM-1: <kbd>SELECT</kbd>, SMK-37: K2) से सेट करें। <kbd>MENU</kbd> में: Clock (internal / MIDI slave / MIDI master), MIDI चैनल, सबसोनिक फ़िल्टर (20/25/30/35 Hz), लिमिटर, मोनो सम, लोड मोड, स्विंग, <kbd>BUILD</kbd> लंबाई, डिस्प्ले ब्राइटनेस, की वेलॉसिटी (सिर्फ़ SMK-37), फ़ैक्ट्री रीसेट (साउंड / पैटर्न / सेटिंग्स अलग-अलग)।</p>
+<h2 id="hi-11"><span class="num">11</span><span class="ht">समस्या और समाधान</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>समस्या</th>
+<th>समाधान</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>बेस सुनाई नहीं देता</td>
+<td>हेडफ़ोन या सिस्टम इस्तेमाल करें – स्पीकर सब नहीं बजाता। लोड मोड और म्यूट जाँचें</td>
+</tr>
+<tr>
+<td>स्वीप में बेस धीमा हो जाता है</td>
+<td>सबसोनिक फ़िल्टर सीमा से नीचे की फ़्रीक्वेंसी हटाता है। यह सुरक्षा के लिए है</td>
+</tr>
+<tr>
+<td>ड्रम्स बाहरी क्लॉक के साथ नहीं चलते</td>
+<td><kbd>MENU</kbd> → Clock को MIDI slave पर रखें</td>
+</tr>
+<tr>
+<td>प्रीसेट सेव नहीं होता</td>
+<td>बैंक A और B सुरक्षित हैं – C या D में सेव करें</td>
+</tr>
+<tr>
+<td>डिवाइस शुरू नहीं होता</td>
+<td>M-VAVE के ऑफ़िशियल अपडेटर से फ़र्मवेयर V15 डालें, फिर DekBass दोबारा इंस्टॉल करें</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="hi-12"><span class="num">12</span><span class="ht">SMK-37</span></h2>
+<p>DekBass SMK-37 Pro, SMK-37 Elite और MKE-P37 पर भी चलता है; Starrykey 37 Play Pro पैकेज इस्तेमाल करता है। अध्याय 3–11 की सारी बातें वहाँ भी लागू हैं। इसके अलावा:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>कंट्रोल</th>
+<th>काम</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 बाहरी कुंजियाँ (C3–E3, G♯5–C6)</td>
+<td>और बेस नोट, खासकर नीचे की ओर</td>
+</tr>
+<tr>
+<td><span class="view view-bass">BASS</span> में पैड</td>
+<td>मौजूदा स्टेप पेज के 16 स्टेप, गेरुआ रंग में, प्लेहेड चमकीला</td>
+</tr>
+<tr>
+<td><span class="view view-euclid">EUCLID</span> में पैड</td>
+<td>1–4 <span class="vchip v1">V1</span>–4 हाथ से बजाते हैं, 5–8 <span class="vchip v1">V1</span>–4 म्यूट (<kbd>SHIFT</kbd>: सोलो), 9–12 <kbd>DROP</kbd>, <kbd>BUILD</kbd>, <kbd>CUT</kbd>, <kbd>FILL</kbd>, 13–16 पैटर्न 1–4 (अगली पहली बीट पर बदलाव)</td>
+</tr>
+<tr>
+<td>फ़ेडर 1–4</td>
+<td>पिच-स्वीप गहराई, डिले थ्रो, डक, बेस/ड्रम्स बैलेंस। फ़ेडर तभी असर करता है जब आप उसे हिलाएँ</td>
+</tr>
+<tr>
+<td>पिच व्हील</td>
+<td>बेस पर बेंड, ±12 सेमीटोन</td>
+</tr>
+<tr>
+<td>मॉड व्हील</td>
+<td>हाथ से <kbd>BUILD</kbd>: फ़िल्टर खुलता है, नॉइज़ बढ़ता है, रैचेट दोगुने</td>
+</tr>
+<tr>
+<td><kbd>KNOB BANK</kbd></td>
+<td>पैटर्न चेन</td>
+</tr>
+<tr>
+<td><kbd>FADER BANK</kbd></td>
+<td>चारों फ़ेडर मैक्रो बड़े दिखाता है</td>
+</tr>
+<tr>
+<td>&lt; / &gt;</td>
+<td>बेस सीक्वेंसर के स्टेप पेज बदलते हैं</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>SMK-37 में TRS MIDI इनपुट नहीं है: MIDI क्लॉक सिर्फ़ USB से आती है।</li>
+<li>पहली इंस्टॉलेशन से पहले पूरा फ़्लैश बैकअप बनाएँ (तरीका रिपॉज़िटरी की SMK37.md में)। कैलिब्रेशन और मूल फ़र्मवेयर पर वापसी का रास्ता सुरक्षित रहता है।</li>
+<li>पहली बार चलने पर DekBass मूल फ़र्मवेयर का सेटिंग्स क्षेत्र मिटा देता है।</li>
+<li>पैकेज: dekbass-smk37.fwsc (Pro), dekbass-smk37-elite.fwsc, dekbass-smk37-mke.fwsc।</li>
+</ul>
+      <footer class="foot"><p>DekBass GPL-3.0 के तहत मुफ़्त सॉफ़्टवेयर है, Felucca पर आधारित। <a href="https://github.com/g0rst/DekBass-FM1">github.com/g0rst/DekBass-FM1</a></p></footer>
+    </article>
+  </div>
+</section>
+<section class="lang" id="or" lang="or" data-lang="or">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">ବ୍ୟବହାରକାରୀ ମାନୁଆଲ · M-VAVE FM-1 ଓ M-Vave SMK-37 ପାଇଁ ଫର୍ମୱେୟାର v1.0</p>
+      <h1><span class="word">DEKBASS</span><span class="board">FM-1 · SMK-37</span></h1>
+      <p class="lead">M-VAVE FM-1 ଓ M-Vave SMK-37 ପାଇଁ ଫର୍ମୱେୟାର v1.0। ବଡ଼ ଅକ୍ଷରରେ ଲେଖାଯାଇଥିବା ନାମ DekBassର ଫଙ୍କସନ; FM-1 ଓ SMK-37ରେ କେଉଁ ବଟନ କେଉଁ ଫଙ୍କସନ କରେ ତାହା ଅଧ୍ୟାୟ 4ରେ ଅଛି। SMK-37ର ଅତିରିକ୍ତ ସୁବିଧା ଅଧ୍ୟାୟ 12ରେ ଅଛି।</p>
+    </div>
+    <svg class="konark" viewBox="0 0 400 400" role="img" aria-label="Konark view: four voices as rings"><circle cx="200" cy="200" r="186" fill="none" stroke="var(--red)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="50.0" x2="200.0" y2="18.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="61.4" x2="269.6" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="93.9" x2="328.7" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="142.6" x2="368.1" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="350.0" y1="200.0" x2="382.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="338.6" y1="257.4" x2="368.1" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="306.1" y1="306.1" x2="328.7" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="257.4" y1="338.6" x2="269.6" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="350.0" x2="200.0" y2="382.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="338.6" x2="130.4" y2="368.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="306.1" x2="71.3" y2="328.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="257.4" x2="31.9" y2="269.6" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="50.0" y1="200.0" x2="18.0" y2="200.0" stroke="var(--red)" stroke-width="7" stroke-linecap="round"/><line x1="61.4" y1="142.6" x2="31.9" y2="130.4" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="93.9" y1="93.9" x2="71.3" y2="71.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="142.6" y1="61.4" x2="130.4" y2="31.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="146" fill="none" stroke="var(--ochre)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="88.0" x2="200.0" y2="58.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="96.5" x2="254.3" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="120.8" x2="300.4" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="157.1" x2="331.2" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="312.0" y1="200.0" x2="342.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="303.5" y1="242.9" x2="331.2" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="279.2" y1="279.2" x2="300.4" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="242.9" y1="303.5" x2="254.3" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="312.0" x2="200.0" y2="342.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="303.5" x2="145.7" y2="331.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="279.2" x2="99.6" y2="300.4" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="242.9" x2="68.8" y2="254.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="88.0" y1="200.0" x2="58.0" y2="200.0" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/><line x1="96.5" y1="157.1" x2="68.8" y2="145.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="120.8" y1="120.8" x2="99.6" y2="99.6" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="157.1" y1="96.5" x2="145.7" y2="68.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="108" fill="none" stroke="var(--indigo)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="126.0" x2="200.0" y2="96.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="131.6" x2="239.8" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="147.7" x2="273.5" y2="126.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="171.7" x2="296.1" y2="160.2" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="274.0" y1="200.0" x2="304.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="268.4" y1="228.3" x2="296.1" y2="239.8" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="252.3" y1="252.3" x2="273.5" y2="273.5" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="228.3" y1="268.4" x2="239.8" y2="296.1" stroke="var(--indigo)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="274.0" x2="200.0" y2="304.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="268.4" x2="160.2" y2="296.1" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="252.3" x2="126.5" y2="273.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="228.3" x2="103.9" y2="239.8" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="126.0" y1="200.0" x2="96.0" y2="200.0" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="131.6" y1="171.7" x2="103.9" y2="160.2" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="147.7" y1="147.7" x2="126.5" y2="126.5" stroke="var(--indigo)" stroke-width="7" stroke-linecap="round"/><line x1="171.7" y1="131.6" x2="160.2" y2="103.9" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="70" fill="none" stroke="var(--grey)" stroke-width="2" opacity=".55"/><line x1="200.0" y1="160.0" x2="200.0" y2="134.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="163.0" x2="225.3" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="171.7" x2="246.7" y2="153.3" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="184.7" x2="261.0" y2="174.7" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="240.0" y1="200.0" x2="266.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="237.0" y1="215.3" x2="261.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="228.3" y1="228.3" x2="246.7" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="215.3" y1="237.0" x2="225.3" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="200.0" y1="240.0" x2="200.0" y2="266.0" stroke="var(--grey)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="237.0" x2="174.7" y2="261.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="228.3" x2="153.3" y2="246.7" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="215.3" x2="139.0" y2="225.3" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><line x1="160.0" y1="200.0" x2="134.0" y2="200.0" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="163.0" y1="184.7" x2="139.0" y2="174.7" stroke="var(--grey)" stroke-width="3" stroke-linecap="round"/><line x1="171.7" y1="171.7" x2="153.3" y2="153.3" stroke="var(--spoke)" stroke-width="7" stroke-linecap="round"/><line x1="184.7" y1="163.0" x2="174.7" y2="139.0" stroke="var(--spoke)" stroke-width="3" stroke-linecap="round"/><circle cx="200" cy="200" r="26" fill="var(--ink)" stroke="var(--grey)" stroke-width="2"/><circle cx="200" cy="200" r="8" fill="var(--ochre)"/><g class="playhead"><line x1="200" y1="170" x2="200" y2="6" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round" opacity=".85"/></g></svg>
+  </header>
+  <div class="layout">
+    <nav class="toc" aria-label="ଅଧ୍ୟାୟ"><p class="toc-h">ଅଧ୍ୟାୟ</p><ol><li><a href="#or-1"><span class="tn">01</span>ସୁରକ୍ଷା</a></li><li><a href="#or-2"><span class="tn">02</span>ଇନଷ୍ଟଲେସନ</a></li><li><a href="#or-3"><span class="tn">03</span>ମୂଳ ଧାରଣା</a></li><li><a href="#or-4"><span class="tn">04</span>ନିୟନ୍ତ୍ରଣ</a></li><li><a href="#or-5"><span class="tn">05</span>ବେସ ବଜାଇବା</a></li><li><a href="#or-6"><span class="tn">06</span>ବେସ ସିକ୍ୱେନ୍ସର</a></li><li><a href="#or-7"><span class="tn">07</span>ୟୁକ୍ଲିଡ ଡ୍ରମସ</a></li><li><a href="#or-8"><span class="tn">08</span>ପରଫର୍ମାନ୍ସ</a></li><li><a href="#or-9"><span class="tn">09</span>ପ୍ରିସେଟ ଓ ପାଟର୍ନ</a></li><li><a href="#or-10"><span class="tn">10</span>ସେଟିଂସ (MENU)</a></li><li><a href="#or-11"><span class="tn">11</span>ସମସ୍ୟା ଓ ସମାଧାନ</a></li><li><a href="#or-12"><span class="tn">12</span>SMK-37</a></li></ol></nav>
+    <article class="body">
+<h2 id="or-1"><span class="num">01</span><span class="ht">ସୁରକ୍ଷା</span></h2>
+<ul>
+<li>DekBass ବହୁତ ଗଭୀର ଫ୍ରିକ୍ୱେନ୍ସି ସୃଷ୍ଟି କରେ। ମିକ୍ସର ଓ ସାଉଣ୍ଡ ସିଷ୍ଟମର ଭଲ୍ୟୁମ ସର୍ବଦା ଧୀରେ ଧୀରେ ବଢ଼ାନ୍ତୁ।</li>
+<li>ଭିତରେ ଥିବା ସ୍ପିକର ସବ-ବେସ ବଜାଇପାରେ ନାହିଁ। କେବଳ ସ୍ପିକରରେ ସାଉଣ୍ଡ ସେଟ କରନ୍ତୁ ନାହିଁ – ବଡ଼ ସିଷ୍ଟମରେ ବେସ ବହୁତ ଜୋରରେ ବାଜିବ।</li>
+<li>ସବସୋନିକ ଫିଲ୍ଟର ଓ ଲିମିଟର ଆରମ୍ଭରୁ ଚାଲୁ ଅଛି। ଆପଣଙ୍କ ସିଷ୍ଟମ କ'ଣ ସହିପାରିବ ତାହା ନିଶ୍ଚିତ ଜାଣିଥିଲେ ହିଁ ଏହାକୁ ବନ୍ଦ କରନ୍ତୁ।</li>
+<li>ଜୋରଦାର ସେସନରେ କାନର ସୁରକ୍ଷା (ଇୟରପ୍ଲଗ) ବ୍ୟବହାର କରନ୍ତୁ।</li>
+</ul>
+<h2 id="or-2"><span class="num">02</span><span class="ht">ଇନଷ୍ଟଲେସନ</span></h2>
+<ol>
+<li>FM-1 କୁ ପୂରା ଚାର୍ଜ କରନ୍ତୁ ଓ USB-C ଦ୍ୱାରା କମ୍ପ୍ୟୁଟର ସହ ଯୋଡ଼ନ୍ତୁ।</li>
+<li>ବ୍ରାଉଜର (Chrome କିମ୍ବା Edge)ରେ DekBass ଇନଷ୍ଟଲର ଖୋଲନ୍ତୁ।</li>
+<li><strong>ବ୍ୟାକଅପ କରନ୍ତୁ:</strong> ବର୍ତ୍ତମାନର ଫର୍ମୱେୟାରର ପ୍ରିସେଟ ଓ ସେଟିଂସ ସେଭ କରନ୍ତୁ।</li>
+<li>"Install" ବାଛନ୍ତୁ ଓ FM-1 ପୁଣି ଆରମ୍ଭ ହେବା ପର୍ଯ୍ୟନ୍ତ ଅପେକ୍ଷା କରନ୍ତୁ। ଏହି ସମୟରେ କେବଲ କାଢ଼ନ୍ତୁ ନାହିଁ।</li>
+<li><strong>ମୂଳ ଫର୍ମୱେୟାରକୁ ଫେରିବା:</strong> M-VAVEର ଅଫିସିଆଲ ଅପଡେଟର ଦ୍ୱାରା ଫର୍ମୱେୟାର V15 ପୁଣି ଲଗାନ୍ତୁ।</li>
+</ol>
+<p>ଇନଷ୍ଟଲେସନ ନିଜ ଦାୟିତ୍ୱରେ କରନ୍ତୁ।</p>
+<h2 id="or-3"><span class="num">03</span><span class="ht">ମୂଳ ଧାରଣା</span></h2>
+<p>DekBassରେ ଦୁଇଟି ଭ୍ୟୁ ଅଛି: <strong><span class="view view-bass">BASS</span></strong> ଓ <strong><span class="view view-euclid">EUCLID</span></strong>। ଦୁହେଁ ସର୍ବଦା ଏକାସାଙ୍ଗରେ ଚାଲନ୍ତି। <strong><kbd>SEQ</kbd> ଦବାଇ ରଖିଲେ</strong> କେବଳ ସ୍କ୍ରିନ ଓ ଚାରୋଟି ନବର କାମ ବଦଳେ – ଶବ୍ଦ ଚାଲୁ ରହେ।</p>
+<p>ସ୍କ୍ରିନର ଉପରେ ସର୍ବଦା ଟେମ୍ପୋ, ବର୍ତ୍ତମାନର ପ୍ରିସେଟ (ଯେପରି A07) ଓ ଅନ୍ୟ ଭ୍ୟୁର ଛୋଟ ସଙ୍କେତ ଦେଖାଯାଏ। ତଳେ ସେହି ଚାରୋଟି ପାରାମିଟର ଦେଖାଯାଏ ଯାହାକୁ ନବଗୁଡ଼ିକ ବର୍ତ୍ତମାନ ନିୟନ୍ତ୍ରଣ କରୁଛନ୍ତି।</p>
+<h2 id="or-4"><span class="num">04</span><span class="ht">ନିୟନ୍ତ୍ରଣ</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>ଫଙ୍କସନ</th>
+<th>FM-1</th>
+<th>SMK-37</th>
+<th>କାମ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ନବ 1–4</td>
+<td>KNOB 1–4</td>
+<td>K5–K8</td>
+<td>ବର୍ତ୍ତମାନ ପେଜର ଚାରୋଟି ପାରାମିଟର</td>
+</tr>
+<tr>
+<td><kbd>MASTER</kbd></td>
+<td><kbd>MASTER</kbd></td>
+<td>K1</td>
+<td>ସମୁଦାୟ ଭଲ୍ୟୁମ</td>
+</tr>
+<tr>
+<td><kbd>TEMPO</kbd></td>
+<td><kbd>SELECT</kbd></td>
+<td>K2</td>
+<td>ଟେମ୍ପୋ</td>
+</tr>
+<tr>
+<td>ENGINE / <kbd>FOCUS</kbd></td>
+<td><kbd>ALGORITHM</kbd></td>
+<td>K3</td>
+<td><span class="view view-bass">BASS</span>: ଇଞ୍ଜିନ ବାଛିବା। <span class="view view-euclid">EUCLID</span>: ଫୋକସରେ ଥିବା ଭଏସ</td>
+</tr>
+<tr>
+<td><kbd>PRESET</kbd></td>
+<td><kbd>PRESETS</kbd></td>
+<td>K4</td>
+<td>ସାଉଣ୍ଡ ପ୍ରିସେଟ ବାଛିବା</td>
+</tr>
+<tr>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>PLAY</kbd></td>
+<td><kbd>SEQ PLAY</kbd></td>
+<td>ଆରମ୍ଭ/ବନ୍ଦ</td>
+</tr>
+<tr>
+<td><kbd>REC</kbd></td>
+<td><kbd>REC</kbd></td>
+<td><kbd>SEQ REC</kbd></td>
+<td>ବେସ ସିକ୍ୱେନ୍ସରରେ ଲାଇଭ ରେକର୍ଡିଂ</td>
+</tr>
+<tr>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td><kbd>SEQ</kbd></td>
+<td>ଛୋଟ ଦବା: ସିକ୍ୱେନ୍ସର ଏଡିଟ। ଦବାଇ ରଖିବା: <span class="view view-bass">BASS</span> ↔ <span class="view view-euclid">EUCLID</span></td>
+</tr>
+<tr>
+<td><kbd>MENU</kbd></td>
+<td><kbd>HOME</kbd></td>
+<td><kbd>PATCH</kbd></td>
+<td>ସେଟିଂସ</td>
+</tr>
+<tr>
+<td><kbd>BANK</kbd></td>
+<td><kbd>SAVE</kbd></td>
+<td><kbd>BT</kbd></td>
+<td>ପ୍ରିସେଟ ଲୋଡ; <kbd>SHIFT</kbd> ସହ ସେଭ</td>
+</tr>
+<tr>
+<td><kbd>SHIFT</kbd></td>
+<td><kbd>GLO</kbd></td>
+<td><kbd>GLOBE</kbd></td>
+<td>ପ୍ରତ୍ୟେକ ବଟନର ଦ୍ୱିତୀୟ ସ୍ତର</td>
+</tr>
+<tr>
+<td><kbd>PAGE</kbd></td>
+<td><kbd>EDIT</kbd></td>
+<td><kbd>PARA</kbd></td>
+<td>ପରବର୍ତ୍ତୀ ପେଜ। <kbd>SHIFT</kbd> + <kbd>PAGE</kbd>: ପେଜର ଚାରୋଟି ମୂଲ୍ୟ ଡିଫଲ୍ଟକୁ</td>
+</tr>
+<tr>
+<td><kbd>DROP</kbd></td>
+<td>FX</td>
+<td>FX</td>
+<td>ପରଫର୍ମାନ୍ସ (ଅଧ୍ୟାୟ 8)</td>
+</tr>
+<tr>
+<td><kbd>BUILD</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td><kbd>ARP</kbd></td>
+<td>ପରଫର୍ମାନ୍ସ (ଅଧ୍ୟାୟ 8)</td>
+</tr>
+<tr>
+<td><kbd>CUT</kbd></td>
+<td>ENV</td>
+<td><kbd>CHORD</kbd></td>
+<td>ପରଫର୍ମାନ୍ସ (ଅଧ୍ୟାୟ 8)</td>
+</tr>
+<tr>
+<td><kbd>FILL</kbd></td>
+<td>LFO</td>
+<td><kbd>NOTE REPEAT</kbd></td>
+<td>ପରଫର୍ମାନ୍ସ (ଅଧ୍ୟାୟ 8)</td>
+</tr>
+<tr>
+<td><kbd>KONARK</kbd></td>
+<td><kbd>SEL</kbd></td>
+<td><kbd>SCALE</kbd></td>
+<td>କୋଣାର୍କ ଭ୍ୟୁ ଚାଲୁ/ବନ୍ଦ</td>
+</tr>
+<tr>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCT−</kbd> / <kbd>OCT+</kbd></td>
+<td><kbd>OCTAVE−</kbd> / <kbd>OCTAVE+</kbd></td>
+<td>ଅକ୍ଟେଭ</td>
+</tr>
+<tr>
+<td>ଧଳା କି'</td>
+<td>F3–G5</td>
+<td>ମଝିର 27ଟି କି'</td>
+<td>ନୋଟ; ସିକ୍ୱେନ୍ସରରେ ଷ୍ଟେପ 1–16; EUCLIDରେ: F3–B3 = <span class="vchip v1">V1</span>–<span class="vchip v4">V4</span> ମ୍ୟୁଟ</td>
+</tr>
+</tbody>
+</table></div>
+<p>ନବଗୁଡ଼ିକ ଦବାଯାଇପାରିବ ନାହିଁ। ସବୁ କାମ ବଟନରେ ହୁଏ।</p>
+<h2 id="or-5"><span class="num">05</span><span class="ht">ବେସ ବଜାଇବା</span></h2>
+<h3>ଇଞ୍ଜିନ</h3>
+<p>ENGINE ଏନକୋଡର (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3) ଦ୍ୱାରା ଚାରୋଟି ଇଞ୍ଜିନରୁ ଗୋଟିଏ ବାଛନ୍ତୁ:</p>
+<ul>
+<li><strong>SUB</strong> – ସଫା, ଗଭୀର ସାଇନ ବେସ। ବକ୍ସ ବେସ ଓ ଲମ୍ବା ଡ୍ରପ ପାଇଁ।</li>
+<li><strong>FM</strong> – କଡ଼ା, ଧାତବ ବେସ।</li>
+<li><strong>PD</strong> – ଗ୍ରାଉଲ ଓ "କଥା କହୁଥିବା" ମିଡସ।</li>
+<li><strong>FX</strong> – ସାଇରେନ, ଲେଜର, ହର୍ନ, ନଏଜ।</li>
+</ul>
+<p>ENGINE ପେଜର ଚାରୋଟି ନବ ବଛାଯାଇଥିବା ଇଞ୍ଜିନର ମାକ୍ରୋ। ଅନ୍ୟ ସମସ୍ତ ପେଜ ସବୁ ଇଞ୍ଜିନ ପାଇଁ ସମାନ।</p>
+<h3>ପେଜ</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>ପେଜ</th>
+<th>ନବ 1</th>
+<th>ନବ 2</th>
+<th>ନବ 3</th>
+<th>ନବ 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PERFORM</td>
+<td>Cutoff</td>
+<td>Resonance</td>
+<td>Drive</td>
+<td>Glide</td>
+</tr>
+<tr>
+<td>ENGINE</td>
+<td>Macro 1</td>
+<td>Macro 2</td>
+<td>Macro 3</td>
+<td>Macro 4</td>
+</tr>
+<tr>
+<td>PITCH</td>
+<td>Pitch env ଗଭୀରତା</td>
+<td>Pitch env ସମୟ</td>
+<td>Sub ସ୍ତର</td>
+<td>Octave/Tune</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>Attack</td>
+<td>Decay</td>
+<td>Sustain</td>
+<td>Release</td>
+</tr>
+<tr>
+<td>LFO</td>
+<td>Rate</td>
+<td>Depth</td>
+<td>Target</td>
+<td>Shape</td>
+</tr>
+<tr>
+<td>FX</td>
+<td>Chain</td>
+<td>Crush</td>
+<td>Delay</td>
+<td>Space</td>
+</tr>
+</tbody>
+</table></div>
+<p><kbd>SHIFT</kbd> ସହ: ENV → ଫିଲ୍ଟର ଏନଭେଲପ, LFO → LFO 2, FX → ଡିଲେ ସମୟ, ଫିଡବ୍ୟାକ, ସ୍ପେସ ସାଇଜ, ଆଉଟପୁଟ ସ୍ତର।</p>
+<p><strong>କ୍ଲାସିକ ଡେକ ବେସ ସ୍ୱିପ ପାଇଁ ଟିପ:</strong> PITCH ପେଜରେ Pitch env ଗଭୀରତା +24, ସମୟ ପ୍ରାୟ 300 ms, ତା'ପରେ PERFORMରେ ଟିକେ Glide ବଢ଼ାନ୍ତୁ।</p>
+<h3>ଇଫେକ୍ଟ ଚେନ</h3>
+<ul>
+<li><strong>CLASSIC:</strong> ଫିଲ୍ଟର ପୂର୍ବରୁ ଡ୍ରାଇଭ – ଉଷ୍ମ ଶବ୍ଦ।</li>
+<li><strong>DIRTY:</strong> ଫିଲ୍ଟର ପରେ ଡ୍ରାଇଭ – ଆକ୍ରମଣାତ୍ମକ।</li>
+<li><strong>SUB-SAFE:</strong> ଡିଷ୍ଟର୍ସନ କେବଳ ମିଡସରେ, ସବ ସଫା ରହେ। ବଡ଼ ସିଷ୍ଟମ ପାଇଁ ସର୍ବୋତ୍ତମ।</li>
+</ul>
+<h2 id="or-6"><span class="num">06</span><span class="ht">ବେସ ସିକ୍ୱେନ୍ସର</span></h2>
+<ol>
+<li><kbd>SEQ</kbd> ଛୋଟ ଦବାନ୍ତୁ → ସିକ୍ୱେନ୍ସର ଏଡିଟ।</li>
+<li><strong>ଷ୍ଟେପ ଦେବା:</strong> ଷ୍ଟେପର ଧଳା କି' ଦବାଇ ରଖନ୍ତୁ ଓ ନୋଟ ବଜାନ୍ତୁ।</li>
+<li><strong>ଲାଇଭ ରେକର୍ଡ:</strong> <kbd>REC</kbd>, ତା'ପରେ <kbd>PLAY</kbd>, ତା'ପରେ ବଜାନ୍ତୁ।</li>
+<li><strong>ଷ୍ଟେପ ବିବରଣୀ:</strong> ଷ୍ଟେପ ଦବାଇ ରଖି ନବ ବୁଲାନ୍ତୁ – ନବ 1 Gate/Tie, ନବ 2 Probability, ନବ 3 Ratchet (1–4), ନବ 4 Slide/Accent।</li>
+<li><strong>ପାରାମିଟର ଲକ:</strong> ଷ୍ଟେପ ଦବାଇ ରଖି ଯେକୌଣସି ସାଉଣ୍ଡ ପେଜରେ ପାରାମିଟର ବୁଲାନ୍ତୁ। ଗୋଟିଏ ପାଟର୍ନରେ ସର୍ବାଧିକ 4ଟି ପାରାମିଟର।</li>
+<li><strong>ଲମ୍ବ:</strong> <kbd>SHIFT</kbd> + <kbd>SEQ</kbd>, ତା'ପରେ ନବ 1 (1–64 ଷ୍ଟେପ)। ସିକ୍ୱେନ୍ସର ଏଡିଟରେ <kbd>PAGE</kbd> ଦ୍ୱାରା ଷ୍ଟେପ 1–16, 17–32 ଆଦିକୁ ଯାଆନ୍ତୁ। SMK-37ରେ &lt; ଓ &gt; ଏଡିଟ ବାହାରେ ମଧ୍ୟ ଷ୍ଟେପ ପେଜ ପ୍ୟାଡରେ ଦେଖାନ୍ତି।</li>
+<li><strong>ସର୍ତ୍ତ:</strong> ଷ୍ଟେପ + <kbd>SHIFT</kbd> + ନବ 2: ସର୍ବଦା, ପ୍ରତି ଦ୍ୱିତୀୟ ଥର, ପ୍ରତି ଚତୁର୍ଥ ଥର, କେବଳ FILLରେ।</li>
+<li><strong>ସ୍ୱିଙ୍ଗ:</strong> MENUରେ, 50–75 %।</li>
+</ol>
+<h2 id="or-7"><span class="num">07</span><span class="ht">ୟୁକ୍ଲିଡ ଡ୍ରମସ</span></h2>
+<h3>ଚାରୋଟି ଚକ</h3>
+<p>ପ୍ରତ୍ୟେକ ଭଏସ 16ଟି ଅର ଥିବା ଗୋଟିଏ ଚକ – ପ୍ରତି ଷ୍ଟେପ ପାଇଁ ଗୋଟିଏ ଅର, କୋଣାର୍କ ଚକ ପରି। ଚଉଡ଼ା ଅରଗୁଡ଼ିକ ଆଠ ଭାଗ ବିଟରେ, ପତଳା ଅରଗୁଡ଼ିକ ସେଗୁଡ଼ିକ ମଝିରେ। ଜଳୁଥିବା ଅର = ହିଟ।</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>ଚକ</th>
+<th>ରଙ୍ଗ</th>
+<th>ଡିଫଲ୍ଟ</th>
+<th>ମଡେଲ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="vchip v1">V1</span></td>
+<td>ଲାଲ</td>
+<td>Kick</td>
+<td>Kick, Sub kick, Box kick</td>
+</tr>
+<tr>
+<td><span class="vchip v2">V2</span></td>
+<td>ଗେରୁଆ</td>
+<td>Snare</td>
+<td>Snare, Clap, Rim</td>
+</tr>
+<tr>
+<td><span class="vchip v3">V3</span></td>
+<td>ନୀଳ (ଇଣ୍ଡିଗୋ)</td>
+<td>Perc</td>
+<td>Hat, Metal perc, Shaker</td>
+</tr>
+<tr>
+<td><span class="vchip v4">V4</span></td>
+<td>ଧୂସର</td>
+<td>FX</td>
+<td>Siren hit, Laser, Horn, Noise</td>
+</tr>
+</tbody>
+</table></div><figure class="wheels"><svg viewBox="0 0 360 380" role="img" aria-label="ଚାରୋଟି ଭଏସ, ଚାରୋଟି ଚକ: V1 କିକ 4 ହିଟ, V2 ସ୍ନେୟାର 2 (ରୋଟେଟ 4), V3 ପର୍କ 7, V4 FX 3। ଚଉଡ଼ା ଅର = ଆଠ ଭାଗ, ପତଳା ଅର = ମଝିର ଷୋହଳ ଭାଗ।"><circle cx="90" cy="84" r="66" fill="none" stroke="var(--red)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="84" r="11.9" fill="var(--ink)" stroke="var(--red)" stroke-width="2.0"/><line x1="90.0" y1="68.2" x2="90.0" y2="23.3" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="18.0" r="3.2" fill="var(--red)"/><line x1="96.1" y1="69.4" x2="113.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="72.8" x2="132.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="77.9" x2="146.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="105.8" y1="84.0" x2="150.7" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="156.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="104.6" y1="90.1" x2="146.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="95.2" x2="132.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="98.6" x2="113.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="90.0" y1="99.8" x2="90.0" y2="144.7" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="150.0" r="3.2" fill="var(--red)"/><line x1="83.9" y1="98.6" x2="66.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="95.2" x2="47.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="75.4" y1="90.1" x2="33.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="84.0" x2="29.3" y2="84.0" stroke="var(--red)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="84.0" r="3.2" fill="var(--red)"/><line x1="75.4" y1="77.9" x2="33.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="72.8" x2="47.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="69.4" x2="66.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="182" text-anchor="middle" class="vlabel" fill="var(--red)">V1</text><circle cx="270" cy="84" r="66" fill="none" stroke="var(--ochre)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="84" r="11.9" fill="var(--ink)" stroke="var(--ochre)" stroke-width="2.0"/><line x1="270.0" y1="68.2" x2="270.0" y2="23.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="69.4" x2="293.2" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="72.8" x2="312.9" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="77.9" x2="326.1" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="84.0" x2="330.7" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="336.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="284.6" y1="90.1" x2="326.1" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="95.2" x2="312.9" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="98.6" x2="293.2" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="99.8" x2="270.0" y2="144.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="98.6" x2="246.8" y2="140.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="95.2" x2="227.1" y2="126.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="90.1" x2="213.9" y2="107.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="84.0" x2="209.3" y2="84.0" stroke="var(--ochre)" stroke-width="5.5" stroke-linecap="round"/><circle cx="204.0" cy="84.0" r="3.2" fill="var(--ochre)"/><line x1="255.4" y1="77.9" x2="213.9" y2="60.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="72.8" x2="227.1" y2="41.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="69.4" x2="246.8" y2="27.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="182" text-anchor="middle" class="vlabel" fill="var(--ochre)">V2</text><circle cx="90" cy="280" r="66" fill="none" stroke="var(--indigo)" stroke-width="3.0" opacity=".9"/><circle cx="90" cy="280" r="11.9" fill="var(--ink)" stroke="var(--indigo)" stroke-width="2.0"/><line x1="90.0" y1="264.2" x2="90.0" y2="219.3" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="90.0" cy="214.0" r="3.2" fill="var(--indigo)"/><line x1="96.1" y1="265.4" x2="113.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="101.2" y1="268.8" x2="132.9" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="273.9" x2="146.1" y2="256.8" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="254.7" r="3.2" fill="var(--indigo)"/><line x1="105.8" y1="280.0" x2="150.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="104.6" y1="286.1" x2="146.1" y2="303.2" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="151.0" cy="305.3" r="3.2" fill="var(--indigo)"/><line x1="101.2" y1="291.2" x2="132.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="96.1" y1="294.6" x2="113.2" y2="336.1" stroke="var(--indigo)" stroke-width="2.2" stroke-linecap="round"/><circle cx="115.3" cy="341.0" r="3.2" fill="var(--indigo)"/><line x1="90.0" y1="295.8" x2="90.0" y2="340.7" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="83.9" y1="294.6" x2="66.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="291.2" x2="47.1" y2="322.9" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="326.7" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="286.1" x2="33.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="74.2" y1="280.0" x2="29.3" y2="280.0" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="24.0" cy="280.0" r="3.2" fill="var(--indigo)"/><line x1="75.4" y1="273.9" x2="33.9" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="78.8" y1="268.8" x2="47.1" y2="237.1" stroke="var(--indigo)" stroke-width="5.5" stroke-linecap="round"/><circle cx="43.3" cy="233.3" r="3.2" fill="var(--indigo)"/><line x1="83.9" y1="265.4" x2="66.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="90" y="378" text-anchor="middle" class="vlabel" fill="var(--indigo)">V3</text><circle cx="270" cy="280" r="66" fill="none" stroke="var(--grey)" stroke-width="3.0" opacity=".9"/><circle cx="270" cy="280" r="11.9" fill="var(--ink)" stroke="var(--grey)" stroke-width="2.0"/><line x1="270.0" y1="264.2" x2="270.0" y2="219.3" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="265.4" x2="293.2" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="268.8" x2="312.9" y2="237.1" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="316.7" cy="233.3" r="3.2" fill="var(--grey)"/><line x1="284.6" y1="273.9" x2="326.1" y2="256.8" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="285.8" y1="280.0" x2="330.7" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="284.6" y1="286.1" x2="326.1" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="281.2" y1="291.2" x2="312.9" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="276.1" y1="294.6" x2="293.2" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="270.0" y1="295.8" x2="270.0" y2="340.7" stroke="var(--grey)" stroke-width="5.5" stroke-linecap="round"/><circle cx="270.0" cy="346.0" r="3.2" fill="var(--grey)"/><line x1="263.9" y1="294.6" x2="246.8" y2="336.1" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="258.8" y1="291.2" x2="227.1" y2="322.9" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="286.1" x2="213.9" y2="303.2" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><line x1="254.2" y1="280.0" x2="209.3" y2="280.0" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="255.4" y1="273.9" x2="213.9" y2="256.8" stroke="var(--grey)" stroke-width="2.2" stroke-linecap="round"/><circle cx="209.0" cy="254.7" r="3.2" fill="var(--grey)"/><line x1="258.8" y1="268.8" x2="227.1" y2="237.1" stroke="var(--spoke)" stroke-width="5.5" stroke-linecap="round"/><line x1="263.9" y1="265.4" x2="246.8" y2="223.9" stroke="var(--spoke)" stroke-width="2.2" stroke-linecap="round"/><text x="270" y="378" text-anchor="middle" class="vlabel" fill="var(--grey)">V4</text></svg><figcaption>ଚାରୋଟି ଭଏସ, ଚାରୋଟି ଚକ: V1 କିକ 4 ହିଟ, V2 ସ୍ନେୟାର 2 (ରୋଟେଟ 4), V3 ପର୍କ 7, V4 FX 3। ଚଉଡ଼ା ଅର = ଆଠ ଭାଗ, ପତଳା ଅର = ମଝିର ଷୋହଳ ଭାଗ।</figcaption></figure>
+<h3>ପେଜ</h3>
+<ul>
+<li><strong>HITS:</strong> ପ୍ରତ୍ୟେକ ଭଏସର ହିଟ ସଂଖ୍ୟା (0–16)। <kbd>SHIFT</kbd> + ବୁଲାଇବା = ଭଏସର ଲମ୍ବ (1–16), ପଲିରିଦମ ପାଇଁ।</li>
+<li><strong>ROTATE:</strong> ପାଟର୍ନକୁ ଘୁଞ୍ଚାଇବା (0–15 ଷ୍ଟେପ)।</li>
+<li><strong>LEVEL:</strong> ଭଲ୍ୟୁମ – ଚକ ବଡ଼ କିମ୍ବା ଛୋଟ ହୁଏ।</li>
+<li><strong>SOUND:</strong> ଫୋକସରେ ଥିବା ଭଏସର Tune, Decay, Tone, Drive। ମଡେଲ ବଦଳାଇବା: <kbd>SHIFT</kbd> + ନବ 1।</li>
+</ul>
+<h3>ମ୍ୟୁଟ, ସୋଲୋ, ଫୋକସ</h3>
+<ul>
+<li><strong>ମ୍ୟୁଟ:</strong> <span class="view view-euclid">EUCLID</span> ଭ୍ୟୁରେ ଧଳା କି' F3, G3, A3 ଓ B3 ଭଏସ <span class="vchip v1">V1</span>–V4କୁ ମ୍ୟୁଟ କିମ୍ବା ଅନମ୍ୟୁଟ କରନ୍ତି। SMK-37ରେ ପ୍ୟାଡ 5–8 ମଧ୍ୟ ଏହା କରନ୍ତି।</li>
+<li><strong>ସୋଲୋ:</strong> <kbd>SHIFT</kbd> + ସେହି କି' କିମ୍ବା ପ୍ୟାଡ।</li>
+<li><strong>ଫୋକସ:</strong> <kbd>FOCUS</kbd> ଏନକୋଡର (FM-1: <kbd>ALGORITHM</kbd>, SMK-37: K3)। ଆପଣ ଶେଷରେ ବଦଳାଇଥିବା ଭଏସ ଉପରେ ଫୋକସ ନିଜେ ଚାଲିଯାଏ।</li>
+<li><span class="view view-euclid">EUCLID</span> ଭ୍ୟୁରେ ବାକି କି'ଗୁଡ଼ିକ ବେସ ବଜାଇବା ଜାରି ରଖନ୍ତି।</li>
+</ul>
+<h3>ଅଧିକ ସେଟିଂସ (<kbd>MENU</kbd>)</h3>
+<ul>
+<li><strong>ବଣ୍ଟନ:</strong> ୟୁକ୍ଲିଡିଆନ (ସମାନ) କିମ୍ବା ବ୍ଲକ।</li>
+<li><strong>Mutate:</strong> ପ୍ରତି ବାରରେ ଛୋଟ ରାଣ୍ଡମ ପରିବର୍ତ୍ତନ, 0–100 %।</li>
+<li><strong>Duck:</strong> କିକ ବେସକୁ କ୍ଷଣିକ ପାଇଁ କମାଏ, ଯାହାଦ୍ୱାରା ଦୁହେଁ ସ୍ପଷ୍ଟ ଶୁଭନ୍ତି।</li>
+</ul>
+<p><strong>କୋଣାର୍କ ଭ୍ୟୁ:</strong> <kbd>KONARK</kbd> ବଟନ (FM-1: <kbd>SEL</kbd>, SMK-37: <kbd>SCALE</kbd>) ଚାରୋଟି ଭଏସକୁ ଗୋଟିଏ ବଡ଼ ଚକରେ ବଳୟ ଭାବେ ଦେଖାଏ। ପୁଣି ଦବାଇଲେ ଫେରିଯାଏ।</p>
+<h2 id="or-8"><span class="num">08</span><span class="ht">ପରଫର୍ମାନ୍ସ</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>ବଟନ</th>
+<th>ପ୍ରଭାବ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><kbd>DROP</kbd></strong> (ଦବାଇ ରଖନ୍ତୁ)</td>
+<td>ପିଚ ଖସେ, ଫିଲ୍ଟର ବନ୍ଦ ହୁଏ, ଡିଲେ ବଢ଼େ, କେବଳ କିକ ବାଜେ। ଛାଡ଼ିଲେ ପରବର୍ତ୍ତୀ ପ୍ରଥମ ବିଟରେ ଫେରେ</td>
+</tr>
+<tr>
+<td><strong><kbd>BUILD</kbd></strong> (ଦବାଇ ରଖନ୍ତୁ)</td>
+<td>1/2/4/8 ବାରର ରାଇଜର (MENUରେ)। ଛାଡ଼ିଲେ ପରବର୍ତ୍ତୀ ପ୍ରଥମ ବିଟରେ ଡ୍ରପ</td>
+</tr>
+<tr>
+<td><strong><kbd>CUT</kbd></strong> (ଟ୍ୟାପ)</td>
+<td>ପରବର୍ତ୍ତୀ ପ୍ରଥମ ବିଟ ପର୍ଯ୍ୟନ୍ତ ସବୁ ଚୁପ</td>
+</tr>
+<tr>
+<td><strong><kbd>FILL</kbd></strong> (ଦବାଇ ରଖନ୍ତୁ)</td>
+<td>ସ୍ନେୟାର ଓ ପର୍କ ଦୁଇଗୁଣ, ବେସର <kbd>FILL</kbd> ଷ୍ଟେପ ବାଜେ</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="or-9"><span class="num">09</span><span class="ht">ପ୍ରିସେଟ ଓ ପାଟର୍ନ</span></h2>
+<ul>
+<li><strong>ବ୍ୟାଙ୍କ:</strong> A ଓ B ଫ୍ୟାକ୍ଟ୍ରି ପ୍ରିସେଟ (ସୁରକ୍ଷିତ), C ଓ D ଆପଣଙ୍କ ପାଇଁ। C01–C04ରେ ଆରମ୍ଭିକ ସାଉଣ୍ଡ ଅଛି।</li>
+<li><strong>ଶୀଘ୍ର ବଦଳାଇବା:</strong> <kbd>PRESET</kbd> ଏନକୋଡର (FM-1: <kbd>PRESETS</kbd>, SMK-37: K4)।</li>
+<li><strong>ବ୍ୟାଙ୍କ ପେଜରୁ ଲୋଡ:</strong> <kbd>BANK</kbd> ଦବାନ୍ତୁ, ନବ 1 ଦ୍ୱାରା ବ୍ୟାଙ୍କ, ନବ 2 ଦ୍ୱାରା ପ୍ରିସେଟ ବାଛନ୍ତୁ।</li>
+<li><strong>ସେଭ:</strong> <kbd>SHIFT</kbd> + <kbd>BANK</kbd>, C କିମ୍ବା Dରେ ସ୍ଥାନ ବାଛନ୍ତୁ, ନିଶ୍ଚିତ କରନ୍ତୁ। ଡିଭାଇସ ପଚାରେ ବର୍ତ୍ତମାନର ପାଟର୍ନ ଯୋଡ଼ିବେ କି ନାହିଁ।</li>
+<li><strong>ପାଟର୍ନ</strong> (ବେସଲାଇନ + ଡ୍ରମସ) ପାଇଁ 64ଟି ଅଲଗା ସ୍ଥାନ: <kbd>SEQ</kbd> + <kbd>BANK</kbd>।</li>
+<li><strong>ଲୋଡ ମୋଡ</strong> (<kbd>MENU</kbd>): "SOUND" କେବଳ ଶବ୍ଦ ବଦଳାଏ – ଡ୍ରମସ ଚାଲୁ ରହେ। "SOUND + PATTERN" ପରବର୍ତ୍ତୀ ପ୍ରଥମ ବିଟରେ ଦୁହିଁଙ୍କୁ ବଦଳାଏ।</li>
+<li><strong>Init ସାଉଣ୍ଡ:</strong> <kbd>SHIFT</kbd> + <kbd>BANK</kbd> ଦବାଇ ରଖନ୍ତୁ।</li>
+</ul>
+<h2 id="or-10"><span class="num">10</span><span class="ht">ସେଟିଂସ (MENU)</span></h2>
+<p>ଟେମ୍ପୋ <kbd>TEMPO</kbd> ଏନକୋଡର (FM-1: <kbd>SELECT</kbd>, SMK-37: K2) ଦ୍ୱାରା ସେଟ କରନ୍ତୁ। MENUରେ: Clock (internal / MIDI slave / MIDI master), MIDI ଚ୍ୟାନେଲ, ସବସୋନିକ ଫିଲ୍ଟର (20/25/30/35 Hz), ଲିମିଟର, ମୋନୋ ସମ, ଲୋଡ ମୋଡ, ସ୍ୱିଙ୍ଗ, <kbd>BUILD</kbd> ଲମ୍ବ, ଡିସପ୍ଲେ ଉଜ୍ଜ୍ୱଳତା, କି' ଭେଲୋସିଟି (କେବଳ SMK-37), ଫ୍ୟାକ୍ଟ୍ରି ରିସେଟ (ସାଉଣ୍ଡ / ପାଟର୍ନ / ସେଟିଂସ ଅଲଗା ଅଲଗା)।</p>
+<h2 id="or-11"><span class="num">11</span><span class="ht">ସମସ୍ୟା ଓ ସମାଧାନ</span></h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>ସମସ୍ୟା</th>
+<th>ସମାଧାନ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ବେସ ଶୁଭୁନାହିଁ</td>
+<td>ହେଡଫୋନ କିମ୍ବା ସିଷ୍ଟମ ବ୍ୟବହାର କରନ୍ତୁ – ସ୍ପିକର ସବ ବଜାଏ ନାହିଁ। ଲୋଡ ମୋଡ ଓ ମ୍ୟୁଟ ଯାଞ୍ଚ କରନ୍ତୁ</td>
+</tr>
+<tr>
+<td>ସ୍ୱିପ ସମୟରେ ବେସ କମିଯାଏ</td>
+<td>ସବସୋନିକ ଫିଲ୍ଟର ସୀମା ତଳର ଫ୍ରିକ୍ୱେନ୍ସି ହଟାଏ। ଏହା ସୁରକ୍ଷା ପାଇଁ</td>
+</tr>
+<tr>
+<td>ଡ୍ରମସ ବାହାର କ୍ଲକ ସହ ଚାଲୁନାହିଁ</td>
+<td><kbd>MENU</kbd> → Clockକୁ MIDI slaveରେ ରଖନ୍ତୁ</td>
+</tr>
+<tr>
+<td>ପ୍ରିସେଟ ସେଭ ହେଉନାହିଁ</td>
+<td>ବ୍ୟାଙ୍କ A ଓ B ସୁରକ୍ଷିତ – C କିମ୍ବା Dରେ ସେଭ କରନ୍ତୁ</td>
+</tr>
+<tr>
+<td>ଡିଭାଇସ ଆରମ୍ଭ ହେଉନାହିଁ</td>
+<td>M-VAVEର ଅଫିସିଆଲ ଅପଡେଟର ଦ୍ୱାରା ଫର୍ମୱେୟାର V15 ଲଗାନ୍ତୁ, ତା'ପରେ DekBass ପୁଣି ଇନଷ୍ଟଲ କରନ୍ତୁ</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="or-12"><span class="num">12</span><span class="ht">SMK-37</span></h2>
+<p>DekBass SMK-37 Pro, SMK-37 Elite ଓ MKE-P37ରେ ମଧ୍ୟ ଚଳେ; Starrykey 37 Play Pro ପ୍ୟାକେଜ ବ୍ୟବହାର କରେ। ଅଧ୍ୟାୟ 3–11ର ସବୁ କଥା ସେଠାରେ ମଧ୍ୟ ଲାଗୁ ହୁଏ। ଏହା ସହିତ:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>ନିୟନ୍ତ୍ରଣ</th>
+<th>କାମ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10ଟି ବାହାର କି' (C3–E3, G♯5–C6)</td>
+<td>ଅଧିକ ବେସ ନୋଟ, ମୁଖ୍ୟତଃ ତଳ ଆଡ଼କୁ</td>
+</tr>
+<tr>
+<td>BASSରେ ପ୍ୟାଡ</td>
+<td>ବର୍ତ୍ତମାନ ଷ୍ଟେପ ପେଜର 16ଟି ଷ୍ଟେପ, ଗେରୁଆ ରଙ୍ଗରେ, ପ୍ଲେହେଡ ଉଜ୍ଜ୍ୱଳ</td>
+</tr>
+<tr>
+<td>EUCLIDରେ ପ୍ୟାଡ</td>
+<td>1–4 <span class="vchip v1">V1</span>–4 ହାତରେ ବଜାନ୍ତି, 5–8 <span class="vchip v1">V1</span>–4 ମ୍ୟୁଟ (<kbd>SHIFT</kbd>: ସୋଲୋ), 9–12 <kbd>DROP</kbd>, <kbd>BUILD</kbd>, <kbd>CUT</kbd>, <kbd>FILL</kbd>, 13–16 ପାଟର୍ନ 1–4 (ପରବର୍ତ୍ତୀ ପ୍ରଥମ ବିଟରେ ବଦଳେ)</td>
+</tr>
+<tr>
+<td>ଫେଡର 1–4</td>
+<td>ପିଚ-ସ୍ୱିପ ଗଭୀରତା, ଡିଲେ ଥ୍ରୋ, ଡକ, ବେସ/ଡ୍ରମସ ବ୍ୟାଲାନ୍ସ। ଫେଡରକୁ ଘୁଞ୍ଚାଇଲେ ହିଁ ଏହା କାମ କରେ</td>
+</tr>
+<tr>
+<td>ପିଚ ୱିଲ</td>
+<td>ବେସ ଉପରେ ବେଣ୍ଡ, ±12 ସେମିଟୋନ</td>
+</tr>
+<tr>
+<td>ମଡ ୱିଲ</td>
+<td>ହାତରେ <kbd>BUILD</kbd>: ଫିଲ୍ଟର ଖୋଲେ, ନଏଜ ବଢ଼େ, ର୍ୟାଚେଟ ଦୁଇଗୁଣ</td>
+</tr>
+<tr>
+<td><kbd>KNOB BANK</kbd></td>
+<td>ପାଟର୍ନ ଚେନ</td>
+</tr>
+<tr>
+<td><kbd>FADER BANK</kbd></td>
+<td>ଚାରୋଟି ଫେଡର ମାକ୍ରୋ ବଡ଼ କରି ଦେଖାଏ</td>
+</tr>
+<tr>
+<td>&lt; / &gt;</td>
+<td>ବେସ ସିକ୍ୱେନ୍ସରର ଷ୍ଟେପ ପେଜ ବଦଳାଏ</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>SMK-37ରେ TRS MIDI ଇନପୁଟ ନାହିଁ: MIDI କ୍ଲକ କେବଳ USB ଦ୍ୱାରା ଆସେ।</li>
+<li>ପ୍ରଥମ ଇନଷ୍ଟଲ ପୂର୍ବରୁ ସମ୍ପୂର୍ଣ୍ଣ ଫ୍ଲାସ ବ୍ୟାକଅପ କରନ୍ତୁ (ପଦ୍ଧତି ରିପୋଜିଟରୀର SMK37.mdରେ)। କ୍ୟାଲିବ୍ରେସନ ଓ ମୂଳ ଫର୍ମୱେୟାରକୁ ଫେରିବା ବାଟ ସୁରକ୍ଷିତ ରହେ।</li>
+<li>ପ୍ରଥମ ଥର ଚାଲୁ ହେଲେ DekBass ମୂଳ ଫର୍ମୱେୟାରର ସେଟିଂସ ଅଂଶ ଲିଭାଇଦିଏ।</li>
+<li>ପ୍ୟାକେଜ: dekbass-smk37.fwsc (Pro), dekbass-smk37-elite.fwsc, dekbass-smk37-mke.fwsc।</li>
+</ul>
+      <footer class="foot"><p>DekBass GPL-3.0 ଅଧୀନରେ ମୁକ୍ତ ସଫ୍ଟୱେୟାର, Felucca ଉପରେ ଆଧାରିତ। <a href="https://github.com/g0rst/DekBass-FM1">github.com/g0rst/DekBass-FM1</a></p></footer>
+    </article>
+  </div>
+</section>
+<script>
+(function(){
+  var codes=["de","en","hi","or"];
+  function pick(){
+    var h=(location.hash||"").slice(1), code=h.split("-")[0];
+    if(codes.indexOf(code)<0) code="de";
+    codes.forEach(function(c){
+      document.getElementById(c).classList.toggle("on",c===code);
+      var a=document.querySelector('.switch a[href="#'+c+'"]'); if(a) a.setAttribute("aria-current",c===code?"true":"false");
+    });
+    document.documentElement.lang=code;
+    if(h && h.indexOf("-")>0){var t=document.getElementById(h); if(t) t.scrollIntoView();}
+    else window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange",pick); pick();
+  window.addEventListener("load",function(){ if((location.hash||"").indexOf("-")<0) window.scrollTo(0,0); });
+})();
+</script>
+</body>
+</html>
