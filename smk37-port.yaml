@@ -71,13 +71,12 @@ wheels:
 rules:
   no_doubles: true
   doubles_allowed:          # asked for by the owner
-    - "K2 and PAGE (FM-1 EDIT / SMK PARA) both change the parameter page"
     - "EUCLID view: keys F3-B3 and pads 5-8 both mute V1-V4 (SHIFT: solo)"
 
 knobs:
   layout: fm1               # K1 MASTER, K2-K4 the FM-1 encoders, K5-K8 the four page parameters (FM-1 KNOB 1-4)
   K1: master
-  K2: page                  # FM-1 SELECT: choose the parameter page
+  K2: tempo                 # FM-1 SELECT: tempo (BPM); pages only with PAGE, so no double
   K3: engine / focused voice  # FM-1 ALGORITHM: BASS view engine, EUCLID view the voice in focus
   K4: presets               # FM-1 PRESETS: sound presets
   K5: dial 1
@@ -108,8 +107,8 @@ buttons:
   extra:
     KNOB BANK: pattern chain (long arrangements)
     FADER BANK: macro overview (the four fader macros large on screen)
-    "<": bass step page back (BASS view)
-    ">": bass step page forward (BASS view)
+    "<": "bass step page back, shown on the pads in the BASS view (FM-1: PAGE in sequencer edit)"
+    ">": "bass step page forward, shown on the pads in the BASS view"
 
 screen:
   style: keep               # the same 240 x 240 DekBass screens as on the FM-1
