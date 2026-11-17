@@ -1,7 +1,8 @@
 # smk37-port.yaml for DekBass: every decision for the SMK-37 build, in one place.
 #
-# Template: genkigenki/fm1-to-smk37 (AGENTS.md step 0). Decided by the owner on 2026-11-17: pads, faders, outer keys and wheels. Values marked
-# PROPOSAL are not decided yet; they are listed under open_questions at the end. Change this file first, then the code.
+# Template: genkigenki/fm1-to-smk37 (AGENTS.md step 0). Every value below was decided by the owner on 2026-11-17.
+# Neither board has encoder push switches (FM-1: 7 encoders, SMK-37: 8, no push in either key matrix), so the
+# concept's "push a knob" gestures are replaced as noted under knobs and modes. Change this file first, then the code.
 
 firmware:
   name: DekBass             # the same name on the FM-1 and the SMK-37 (no "DekBass37")
@@ -21,11 +22,11 @@ firmware:
 delivery:
   mode: own                 # a new firmware of the owner's own: free in name and look, no upstream PR
   pr: ""
-  fork: ""                  # the DekBass repository is the home of both builds (see open_questions)
+  fork: ""                  # none: github.com/g0rst/DekBass-FM1 is the home of both builds
   package: dekbass-smk37.fwsc   # dekbass-smk37-elite.fwsc, dekbass-smk37-mke.fwsc; the FM-1 package: dekbass.fwsc
   usb_name: DekBass         # USB / MIDI device name; every installer's filter must include it
   data_family: DEKBASS      # 7 characters, own family: other firmwares' data is cleared on a switch
-  copyright: ""             # the owner's name or handle for the file headers (see open_questions)
+  copyright: "g0rst"        # in the headers of new DekBass files
 
 models:                     # one package per model, all three from the start
   - pro                     # SMK-37 Pro, also Starrykey 37 Play
@@ -69,14 +70,16 @@ wheels:
 
 rules:
   no_doubles: true
-  doubles_allowed: []
+  doubles_allowed:          # asked for by the owner
+    - "K2 and PAGE (FM-1 EDIT / SMK PARA) both change the parameter page"
+    - "EUCLID view: keys F3-B3 and pads 5-8 both mute V1-V4 (SHIFT: solo)"
 
 knobs:
   layout: fm1               # K1 MASTER, K2-K4 the FM-1 encoders, K5-K8 the four page parameters (FM-1 KNOB 1-4)
   K1: master
-  K2: page                  # PROPOSAL: the DekBass encoder order (to fix with the FM-1 button mapping)
-  K3: engine / focused voice
-  K4: presets
+  K2: page                  # FM-1 SELECT: choose the parameter page
+  K3: engine / focused voice  # FM-1 ALGORITHM: BASS view engine, EUCLID view the voice in focus
+  K4: presets               # FM-1 PRESETS: sound presets
   K5: dial 1
   K6: dial 2
   K7: dial 3
@@ -85,13 +88,28 @@ knobs:
   pages: {}
 
 buttons:
-  map: printed              # DekBass functions (SHIFT, SEQ, PAGE, PLAY, REC, BANK, MENU, DROP, BUILD, CUT, FILL)
-  names: firmware           # on the FM-1 buttons they get on the FM-1 (still open on the FM-1 too)
+  map: printed              # the DekBass function on each FM-1 button; the SMK button that means the same carries it
+  names: firmware           # DekBass names in the manuals
+  fm1:                      # FM-1 printed name (SMK-37 printed name): DekBass function
+    PLAY (SEQ PLAY): PLAY
+    REC (SEQ REC): REC
+    SEQ (SEQ): "SEQ: short = sequencer edit, long = BASS / EUCLID"
+    HOME (PATCH): MENU
+    SAVE (BT): "BANK: load and save presets; SHIFT = save"
+    GLO (GLOBE): SHIFT
+    EDIT (PARA): "PAGE: next page; SHIFT + PAGE = reset the page's four values to default"
+    FX (FX): DROP
+    ARP (ARP): BUILD
+    ENV (CHORD): CUT
+    LFO (NOTE REPEAT): FILL
+    SEL (SCALE): Konark view on / off
+    OCT- (OCTAVE-): octave down
+    OCT+ (OCTAVE+): octave up
   extra:
-    KNOB BANK: ""           # open
-    FADER BANK: ""          # open
-    "<": page back          # bass step page back in BASS view
-    ">": page forward
+    KNOB BANK: pattern chain (long arrangements)
+    FADER BANK: macro overview (the four fader macros large on screen)
+    "<": bass step page back (BASS view)
+    ">": bass step page forward (BASS view)
 
 screen:
   style: keep               # the same 240 x 240 DekBass screens as on the FM-1
@@ -108,13 +126,9 @@ modes:                      # DECIDED: the two DekBass views, each with its own 
   BASS:
     pads: "the 16 steps of the current page (1-16, 17-32 ...); on = ochre, playhead and slide/accent brighter"
   EUCLID:
-    pads: "pads 1-4 play V1-V4 by hand (finger drums), pads 5-8 mute V1-V4, pads 9-12 DROP BUILD CUT FILL,
-           pads 13-16 pattern slots 1-4 (switch on the next downbeat); all in the voice colours"
+    pads: "pads 1-4 play V1-V4 by hand (finger drums), pads 5-8 mute V1-V4 (SHIFT: solo), pads 9-12 DROP BUILD
+           CUT FILL, pads 13-16 pattern slots 1-4 (switch on the next downbeat); all in the voice colours"
+    keys: "F3-B3 (the first four white keys) mute V1-V4, SHIFT + key = solo, as on the FM-1; the other keys play the bass"
   switch: long press SEQ (as on the FM-1)
 
-open_questions:
-  - KNOB BANK and FADER BANK: what do they do?
-  - copyright name for the new files
-  - the DekBass repository on GitHub (owner / name); pushes and releases are the owner's
-  - K2-K4 order (page, engine / focused voice, presets): OK?
-  - the FM-1 button mapping, still open in the concept, decides the SMK button names too
+open_questions: []
